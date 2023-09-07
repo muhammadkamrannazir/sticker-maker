@@ -17,11 +17,7 @@ class MyApp extends StatelessWidget {
       minTextAdapt: true,
       builder: (context, child) => GetMaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Donation',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-        ),
+        title: 'Sticker Maker',
         home: const MyHomePage(),
       ),
     );
