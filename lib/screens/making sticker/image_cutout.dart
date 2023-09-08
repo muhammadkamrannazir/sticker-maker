@@ -15,7 +15,7 @@ class ImageCutOutPage extends StatefulWidget {
   @override
   State<ImageCutOutPage> createState() => _ImageCutOutPageState();
 }
-////
+//////
 class _ImageCutOutPageState extends State<ImageCutOutPage> {
   bool isCircle = false;
   @override
