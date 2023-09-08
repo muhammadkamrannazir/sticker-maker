@@ -12,7 +12,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool automaticallyImplyLeading;
   final bool showLanguageButton;
   final bool centerTitle;
-  final Color? backgroundColor;
+  final Color backgroundColor;
 
   const CustomAppBar({
     super.key,
@@ -23,7 +23,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.showLanguageButton = false,
     this.automaticallyImplyLeading = false,
     this.centerTitle = false,
-    this.backgroundColor,
+    this.backgroundColor = Colors.transparent,
   });
 
   @override
@@ -38,10 +38,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       leading: leading,
       title: child ??
           CustomText(
-            title ?? 'Sticker Maker',
-            fontWeight: FontWeight.bold,
-            fontSize: 30.sp,
-            fontStyle: FontStyle.italic,
+            title ?? '',
+            fontWeight: FontWeight.w600,
+            fontSize: 18.sp,
+            fontStyle: FontStyle.normal,
           ),
       actions: [
         showLanguageButton == true

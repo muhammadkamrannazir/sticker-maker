@@ -29,7 +29,7 @@ class CustomButton extends StatelessWidget {
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return GestureDetector(
       onTap: onPressed,
       child: SizedBox(
         height: height ?? 62.h,
