@@ -11,7 +11,7 @@ class ImageCutOutPage extends StatefulWidget {
     super.key,
     required this.onPickImage,
   });
-
+// working on cutout page
   @override
   State<ImageCutOutPage> createState() => _ImageCutOutPageState();
 }
