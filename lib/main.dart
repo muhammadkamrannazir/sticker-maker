@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       builder: (context, child) => GetMaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Sticker Maker',
-        home: const MyHomePage(),
+        home:  MyHomePage(),
       ),
     );
   }

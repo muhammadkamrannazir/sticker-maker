@@ -1,17 +1,28 @@
+import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sticker_maker/utils/colors.dart';
-import 'package:sticker_maker/widgets/appbar.dart';
+
+import '../widgets/image_picker.dart';
 
 class MyHomePage extends StatelessWidget {
-  const MyHomePage({super.key});
+  MyHomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.black,
-      appBar: const CustomAppBar(
-        backgroundColor: AppColors.black,
+      // appBar: const CustomAppBar(
+      //   backgroundColor: AppColors.black,
+      // ),
+      body: Column(
+        children: [
+          UserImagePicker(
+            onPickImage: (pickedImage) {
+              _selectedImage = pickedImage;
+            },
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
@@ -23,4 +34,6 @@ class MyHomePage extends StatelessWidget {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
+
+  File? _selectedImage;
 }
