@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:sticker_maker/widgets/Custom_Button.dart';
 import 'package:sticker_maker/widgets/appbar.dart';
@@ -15,6 +14,7 @@ class ImageCutOutPage extends StatefulWidget {
   @override
   State<ImageCutOutPage> createState() => _ImageCutOutPageState();
 }
+
 class _ImageCutOutPageState extends State<ImageCutOutPage> {
   bool isCircle = false;
   @override
@@ -26,26 +26,30 @@ class _ImageCutOutPageState extends State<ImageCutOutPage> {
         title: 'IMAGE CUT OUT',
         automaticallyImplyLeading: true,
       ),
-      body: Center(
-        child: isCircle == false
-            ? Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(50),
-                  border: Border.all(width: 2, color: Colors.white),
-                  image: DecorationImage(
-                    image: FileImage(widget.onPickImage),
+      body: Column(
+        children: [
+          Center(
+            child: isCircle == true
+                ? Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
+                      border: Border.all(width: 2, color: Colors.white),
+                      image: DecorationImage(
+                        image: FileImage(widget.onPickImage),
+                      ),
+                    ),
+                  )
+                : CircleAvatar(
+                    backgroundColor: Colors.white,
+                    radius: 122,
+                    child: CircleAvatar(
+                      radius: 120,
+                      backgroundImage: FileImage(widget.onPickImage),
+                    ),
                   ),
-                ),
-              )
-            : CircleAvatar(
-                backgroundColor: Colors.white,
-                radius: 122,
-                child: CircleAvatar(
-                  radius: 120,
-                  backgroundImage: FileImage(widget.onPickImage),
-                ),
-              ),
+          ),
+        ],
       ),
       bottomNavigationBar: Row(
         children: [
