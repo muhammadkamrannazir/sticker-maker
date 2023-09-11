@@ -16,6 +16,7 @@ class AppColors {
   static const Color red = Color(0xffEF5A5A);
   static var redShade100 = Colors.red.shade100;
   static var grey = Colors.grey;
+  static var greyShade900 = Colors.grey.shade900;
   // static const blueGrey = Colors.blueGrey;
   // static const deepOrange = Colors.deepOrange;
   // static const grey = Colors.grey;

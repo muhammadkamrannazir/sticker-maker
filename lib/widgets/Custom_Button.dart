@@ -79,20 +79,20 @@ class CircularIconButton extends StatelessWidget {
   Widget build(BuildContext context) {
     bool isLoading = false;
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 15.h),
-      child: SizedBox(
-        height: 52, // Adjust the height as needed
-        width: width ?? MediaQuery.of(context).size.width * 0.7,
-        child: GestureDetector(
-            onTap: onPressed,
-            child: CircleAvatar(
-              child: isLoading == true
-                  ? const SizedBox()
-                  : Icon(
-                      icon,
-                      color: iconColor ?? Colors.white,
-                    ),
-            )),
+      padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 10.w),
+      child: GestureDetector(
+        onTap: onPressed,
+        child: CircleAvatar(
+          radius: 18,
+          backgroundColor: AppColors.greyShade900,
+          child: isLoading == true
+              ? const SizedBox()
+              : Icon(
+                  icon,
+                  size: 20,
+                  color: iconColor ?? Colors.white,
+                ),
+        ),
       ),
     );
   }

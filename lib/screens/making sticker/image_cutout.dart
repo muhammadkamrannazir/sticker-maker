@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sticker_maker/utils/colors.dart';
 import 'package:sticker_maker/widgets/Custom_Button.dart';
 import 'package:sticker_maker/widgets/appbar.dart';
 
@@ -58,12 +59,27 @@ class _ImageCutOutPageState extends State<ImageCutOutPage> {
           ),
           Column(
             children: [
-              Row(children: [
-                CustomIconButton(name: name, icon: icon, onPressed: onPressed)
-              ]),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  CircularIconButton(
+                    icon: Icons.crop_free_sharp,
+                    onPressed: () {},
+                  ),
+                  CircularIconButton(
+                    icon: Icons.rotate_right,
+                    onPressed: () {},
+                  ),
+                  CircularIconButton(
+                    icon: Icons.rotate_left,
+                    onPressed: () {},
+                  ),
+                  SizedBox(width: 10.w),
+                ],
+              ),
               Container(
                 height: 100.h,
-                color: Colors.grey.shade900,
+                color: AppColors.grey.shade900,
                 child: Row(
                   children: [
                     Expanded(
