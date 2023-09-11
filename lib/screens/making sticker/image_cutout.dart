@@ -29,64 +29,77 @@ class _ImageCutOutPageState extends State<ImageCutOutPage> {
       ),
       body: Column(
         children: [
-          Center(
-            child: isCircle == true
-                ? Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50),
-                      border: Border.all(width: 2, color: Colors.white),
-                      image: DecorationImage(
-                        image: FileImage(widget.onPickImage),
+          Expanded(
+            child: Column(
+              children: [
+                Center(
+                  child: isCircle == true
+                      ? Container(
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(50),
+                            border: Border.all(width: 2, color: Colors.white),
+                            image: DecorationImage(
+                              image: FileImage(widget.onPickImage),
+                            ),
+                          ),
+                        )
+                      : CircleAvatar(
+                          backgroundColor: Colors.white,
+                          radius: 122,
+                          child: CircleAvatar(
+                            radius: 120,
+                            backgroundImage: FileImage(widget.onPickImage),
+                          ),
+                        ),
+                ),
+              ],
+            ),
+          ),
+          Column(
+            children: [
+              Row(children: [
+                CustomIconButton(name: name, icon: icon, onPressed: onPressed)
+              ]),
+              Container(
+                height: 100.h,
+                color: Colors.grey.shade900,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: CustomIconButton(
+                        name: 'Square',
+                        icon: Icons.crop_square_outlined,
+                        onPressed: () {},
                       ),
                     ),
-                  )
-                : CircleAvatar(
-                    backgroundColor: Colors.white,
-                    radius: 122,
-                    child: CircleAvatar(
-                      radius: 120,
-                      backgroundImage: FileImage(widget.onPickImage),
+                    Expanded(
+                      child: CustomIconButton(
+                        name: 'Circle',
+                        icon: Icons.circle_outlined,
+                        onPressed: () {},
+                      ),
                     ),
-                  ),
+                    Expanded(
+                      child: CustomIconButton(
+                        name: 'Free Hand',
+                        icon: Icons.ads_click_rounded,
+                        onPressed: () {},
+                      ),
+                    ),
+                    Expanded(
+                      child: CustomIconButton(
+                        name: 'Select All',
+                        icon: Icons.select_all_rounded,
+                        onPressed: () {},
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
         ],
-      ),
-      bottomNavigationBar: Container(
-        height: 100.h,
-        color: Colors.grey.shade900,
-        child: Row(
-          children: [
-            Expanded(
-              child: CustomIconButton(
-                name: 'Square',
-                icon: Icons.crop_square_outlined,
-                onPressed: () {},
-              ),
-            ),
-            Expanded(
-              child: CustomIconButton(
-                name: 'Circle',
-                icon: Icons.circle_outlined,
-                onPressed: () {},
-              ),
-            ),
-            Expanded(
-              child: CustomIconButton(
-                name: 'Free Hand',
-                icon: Icons.ads_click_rounded,
-                onPressed: () {},
-              ),
-            ),
-            Expanded(
-              child: CustomIconButton(
-                name: 'Select All',
-                icon: Icons.select_all_rounded,
-                onPressed: () {},
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }

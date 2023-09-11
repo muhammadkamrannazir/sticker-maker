@@ -53,48 +53,46 @@ class CustomButton extends StatelessWidget {
   }
 }
 
-class CustomButtonSecondary extends StatelessWidget {
-  final String name;
+class CircularIconButton extends StatelessWidget {
+  IconData icon;
   double? height;
   double? width;
   bool loading;
   Color? color;
   Color? textColor;
   Color? borderColor;
+  Color? iconColor;
   VoidCallback? onPressed;
-  CustomButtonSecondary({
+  CircularIconButton({
     Key? key,
-    required this.name,
+    required this.icon,
+    required this.onPressed,
     this.color,
     this.textColor,
-    this.borderColor,
     this.height,
     this.loading = false,
+    this.borderColor,
+    this.iconColor,
     this.width,
-    required this.onPressed,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onPressed,
+    bool isLoading = false;
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 15.h),
       child: SizedBox(
-        height: height ?? 62.h,
-        width: width ?? double.infinity,
-        child: Card(
-          color: color ?? AppColors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-            side: BorderSide(color: AppColors.secondary),
-          ),
-          child: Center(
-            child: CustomText(
-              name,
-              fontSize: 14.sp,
-              color: textColor ?? AppColors.secondary,
-              fontWeight: FontWeight.w400,
-            ),
-          ),
-        ),
+        height: 52, // Adjust the height as needed
+        width: width ?? MediaQuery.of(context).size.width * 0.7,
+        child: GestureDetector(
+            onTap: onPressed,
+            child: CircleAvatar(
+              child: isLoading == true
+                  ? const SizedBox()
+                  : Icon(
+                      icon,
+                      color: iconColor ?? Colors.white,
+                    ),
+            )),
       ),
     );
   }
