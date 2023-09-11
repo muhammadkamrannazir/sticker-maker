@@ -77,6 +77,7 @@ class _ImageCutOutPageState extends State<ImageCutOutPage> {
                   SizedBox(width: 10.w),
                 ],
               ),
+              //////1/
               Container(
                 height: 100.h,
                 color: AppColors.grey.shade900,
