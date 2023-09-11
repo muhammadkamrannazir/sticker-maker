@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sticker_maker/widgets/Custom_Button.dart';
 import 'package:sticker_maker/widgets/appbar.dart';
 
@@ -51,29 +52,34 @@ class _ImageCutOutPageState extends State<ImageCutOutPage> {
           ),
         ],
       ),
-      bottomNavigationBar: Row(
-        children: [
-          Expanded(
-            child: CustomButton(
-              name: 'Square',
-              onPressed: () {
-                isCircle = false;
-                setState(() {});
-                print(isCircle);
-              },
+      bottomNavigationBar: Container(
+        height: 100.h,
+        color: Colors.grey.shade900,
+        child: Row(
+          children: [
+            Expanded(
+              child: CustomIconButton(
+                name: 'Square',
+                icon: Icons.crop_square_outlined,
+                onPressed: () {
+                  isCircle = false;
+                  setState(() {});
+                  print(isCircle);
+                },
+              ),
             ),
-          ),
-          Expanded(
-            child: CustomButton(
-              name: 'Circle',
-              onPressed: () {
-                isCircle = true;
-                setState(() {});
-                print(isCircle);
-              },
+            Expanded(
+              child: CustomButton(
+                name: 'Circle',
+                onPressed: () {
+                  isCircle = true;
+                  setState(() {});
+                  print(isCircle);
+                },
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

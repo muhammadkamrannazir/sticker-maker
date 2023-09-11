@@ -142,30 +142,27 @@ class CustomIconButton extends StatelessWidget {
             //   color: borderColor ?? AppColors.red,
             // )
           ),
-          child: TextButton.icon(
-            // onPressed: () {
-            //   snackbar(
-            //     'کتاب اپلوڈ ہوگئی',
-            //   );
-            // },
-            onPressed: onPressed,
-            icon: isLoading == true
-                ? indicator()
-                : CustomText(
-                    name,
-                    // 'کتاب اپلوڈ کریں',
-                    fontSize: 18.sp,
-                    fontWeight: FontWeight.bold,
-                    color: textColor ?? Colors.white,
-                  ),
-            label: isLoading == true
-                ? const SizedBox()
-                : Icon(
-                    icon,
-                    color: iconColor ?? Colors.white,
-                    size: 30,
-                  ),
-          ),
+          child: GestureDetector(
+              onTap: onPressed,
+              child: Column(
+                children: [
+                  isLoading == true
+                      ? const SizedBox()
+                      : Icon(
+                          icon,
+                          color: iconColor ?? Colors.white,
+                          size: 30,
+                        ),
+                  isLoading == true
+                      ? indicator()
+                      : CustomText(
+                          name,
+                          // 'کتاب اپلوڈ کریں',
+                          fontSize: 14.sp,
+                          color: textColor ?? Colors.white,
+                        ),
+                ],
+              )),
         ),
       ),
     );
