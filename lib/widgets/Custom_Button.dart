@@ -132,37 +132,28 @@ class CustomIconButton extends StatelessWidget {
       child: SizedBox(
         height: 52, // Adjust the height as needed
         width: width ?? MediaQuery.of(context).size.width * 0.7,
-        child: Card(
-          color: color ?? AppColors.red,
-          margin: EdgeInsets.zero,
-          elevation: 4, // Add elevation to create a shadow effect
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12.r),
-            // side: BorderSide(
-            //   color: borderColor ?? AppColors.red,
-            // )
+        child: GestureDetector(
+          onTap: onPressed,
+          child: Column(
+            children: [
+              isLoading == true
+                  ? const SizedBox()
+                  : Icon(
+                      icon,
+                      color: iconColor ?? Colors.white,
+                      size: 26,
+                    ),
+              SizedBox(height: 6.h),
+              isLoading == true
+                  ? indicator()
+                  : CustomText(
+                      name,
+                      // 'کتاب اپلوڈ کریں',
+                      fontSize: 14.sp,
+                      color: textColor ?? Colors.white,
+                    ),
+            ],
           ),
-          child: GestureDetector(
-              onTap: onPressed,
-              child: Column(
-                children: [
-                  isLoading == true
-                      ? const SizedBox()
-                      : Icon(
-                          icon,
-                          color: iconColor ?? Colors.white,
-                          size: 30,
-                        ),
-                  isLoading == true
-                      ? indicator()
-                      : CustomText(
-                          name,
-                          // 'کتاب اپلوڈ کریں',
-                          fontSize: 14.sp,
-                          color: textColor ?? Colors.white,
-                        ),
-                ],
-              )),
         ),
       ),
     );

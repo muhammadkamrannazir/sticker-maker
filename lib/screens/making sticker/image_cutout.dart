@@ -61,21 +61,28 @@ class _ImageCutOutPageState extends State<ImageCutOutPage> {
               child: CustomIconButton(
                 name: 'Square',
                 icon: Icons.crop_square_outlined,
-                onPressed: () {
-                  isCircle = false;
-                  setState(() {});
-                  print(isCircle);
-                },
+                onPressed: () {},
               ),
             ),
             Expanded(
-              child: CustomButton(
+              child: CustomIconButton(
                 name: 'Circle',
-                onPressed: () {
-                  isCircle = true;
-                  setState(() {});
-                  print(isCircle);
-                },
+                icon: Icons.circle_outlined,
+                onPressed: () {},
+              ),
+            ),
+            Expanded(
+              child: CustomIconButton(
+                name: 'Free Hand',
+                icon: Icons.ads_click_rounded,
+                onPressed: () {},
+              ),
+            ),
+            Expanded(
+              child: CustomIconButton(
+                name: 'Select All',
+                icon: Icons.select_all_rounded,
+                onPressed: () {},
               ),
             ),
           ],
