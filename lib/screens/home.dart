@@ -42,7 +42,7 @@ class HomePage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Get.to(const PickPage());
+          Get.to(const PickImagePage());
         },
         child: const Icon(
           CupertinoIcons.add,

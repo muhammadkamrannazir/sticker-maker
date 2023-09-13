@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-  static var primary = Colors.teal.shade900;
+  static var primary = Colors.purple;
   static var secondary = Colors.blueGrey.shade400;
   static var bluegreyshade200 = Colors.blueGrey.shade200;
   static var transparent = Colors.transparent;
@@ -14,7 +14,9 @@ class AppColors {
   static const black = Colors.black;
   static const white = Colors.white;
   static const Color red = Color(0xffEF5A5A);
-  static var redShade100 = Colors.red.shade100;
+  static var greyShade100 = Colors.grey.shade100;
+  static var greyShade200 = Colors.grey.shade200;
+  static var greyShade300 = Colors.grey.shade300;
   static var grey = Colors.grey;
   static var greyShade900 = Colors.grey.shade900;
   // static const blueGrey = Colors.blueGrey;

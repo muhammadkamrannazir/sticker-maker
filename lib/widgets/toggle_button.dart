@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 import '../utils/colors.dart';
 
@@ -22,42 +24,37 @@ class _ToggleButtonGroupState extends State<ToggleButtonGroup> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: List.generate(
-        widget.buttonTitles.length,
-        (index) => _buildButton(widget.buttonTitles[index], index),
+    return SizedBox(
+      height: 60.h,
+      width: Get.width * 0.85,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: List.generate(
+          widget.buttonTitles.length,
+          (index) => _buildButton(widget.buttonTitles[index], index),
+        ),
       ),
     );
   }
 
   Widget _buildButton(String title, int index) {
     final isSelected = index == _selectedButtonIndex;
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 5.w),
-      child: GestureDetector(
-        onTap: () {
-          setState(() {
-            _selectedButtonIndex = index;
-          });
-          widget.onButtonSelected(_selectedButtonIndex);
-        },
-        child: CircleAvatar(
-          radius: 40.r,
-          backgroundColor: AppColors.primary,
-          child: CircleAvatar(
-            radius: 38.r,
-            backgroundColor: isSelected ? AppColors.secondary : Colors.white,
-            child: Text(
-              "$title RO",
-              style: TextStyle(
-                color: isSelected ? Colors.black : AppColors.primary,
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ),
-        ),
+    return IconButton(
+      onPressed: () {
+        setState(() {
+          _selectedButtonIndex = index;
+        });
+        widget.onButtonSelected(_selectedButtonIndex);
+      },
+      icon: Icon(
+        index == 0
+            ? CupertinoIcons.textformat
+            : index == 1
+                ? Icons.emoji_emotions_outlined
+                : index == 2
+                    ? Icons.brush_rounded
+                    : Icons.border_style,
+        color: isSelected ? AppColors.primary : AppColors.grey,
       ),
     );
   }

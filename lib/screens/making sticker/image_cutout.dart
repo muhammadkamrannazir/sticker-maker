@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:sticker_maker/screens/making%20sticker/sticker_making.dart';
 import 'package:sticker_maker/utils/colors.dart';
 import 'package:sticker_maker/widgets/Custom_Button.dart';
 import 'package:sticker_maker/widgets/appbar.dart';
@@ -23,10 +25,19 @@ class _ImageCutOutPageState extends State<ImageCutOutPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      appBar: const CustomAppBar(
+      appBar: CustomAppBar(
         backgroundColor: Colors.black,
         title: 'IMAGE CUT OUT',
         automaticallyImplyLeading: true,
+        actions: [
+          CustomButton(
+            name: 'NEXT',
+            onPressed: () {
+              Get.to(const EditPage());
+            },
+          ),
+          SizedBox(width: 12.w),
+        ],
       ),
       body: Column(
         children: [

@@ -31,21 +31,21 @@ class CustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onPressed,
-      child: SizedBox(
-        height: height ?? 62.h,
-        width: width ?? double.infinity,
-        child: Card(
+      child: Container(
+        height: height ?? 40.h,
+        width: width,
+        padding: EdgeInsets.symmetric(horizontal: 15.w),
+        margin: EdgeInsets.symmetric(vertical: 18.h),
+        decoration: BoxDecoration(
           color: color ?? AppColors.primary,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: Center(
-            child: CustomText(
-              name,
-              fontSize: 14.sp,
-              color: textColor ?? Colors.white,
-              fontWeight: FontWeight.w400,
-            ),
+          borderRadius: BorderRadius.circular(50),
+        ),
+        child: Center(
+          child: CustomText(
+            name,
+            fontSize: 14.sp,
+            color: textColor ?? Colors.white,
+            fontWeight: FontWeight.w400,
           ),
         ),
       ),

@@ -9,19 +9,19 @@ import 'package:image_picker/image_picker.dart';
 import 'package:sticker_maker/screens/making%20sticker/image_cutout.dart';
 import 'package:sticker_maker/widgets/appbar.dart';
 
-class PickPage extends StatefulWidget {
-  const PickPage({super.key});
+class PickImagePage extends StatefulWidget {
+  const PickImagePage({super.key});
 
   @override
-  State<PickPage> createState() => _PickPageState();
+  State<PickImagePage> createState() => _PickImagePageState();
 }
 
-class _PickPageState extends State<PickPage> {
+class _PickImagePageState extends State<PickImagePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      appBar: const CustomAppBar(
+      appBar:  CustomAppBar(
         title: 'SELECT A PHOTO',
         automaticallyImplyLeading: true,
       ),
@@ -43,26 +43,27 @@ class _PickPageState extends State<PickPage> {
                     ),
                     child: Center(
                       child: IconButton(
-                          onPressed: () async {
-                            XFile? photo;
-                            photo = await picker.pickImage(
-                              source: index == 0
-                                  ? ImageSource.camera
-                                  : ImageSource.gallery,
-                            );
-                            if (photo != null) {
-                              imagefile = File(photo.path);
-                              Get.to(ImageCutOutPage(onPickImage: imagefile!));
-                              setState(() {});
-                              print(imagefile);
-                            }
-                          },
-                          icon: Icon(
-                            index == 0
-                                ? CupertinoIcons.camera_fill
-                                : CupertinoIcons.photo,
-                            color: Colors.grey.shade500,
-                          )),
+                        onPressed: () async {
+                          XFile? photo;
+                          photo = await picker.pickImage(
+                            source: index == 0
+                                ? ImageSource.camera
+                                : ImageSource.gallery,
+                          );
+                          if (photo != null) {
+                            imagefile = File(photo.path);
+                            Get.to(ImageCutOutPage(onPickImage: imagefile!));
+                            setState(() {});
+                            print(imagefile);
+                          }
+                        },
+                        icon: Icon(
+                          index == 0
+                              ? CupertinoIcons.camera_fill
+                              : CupertinoIcons.photo,
+                          color: Colors.grey.shade500,
+                        ),
+                      ),
                     ),
                   )
                 : Container(

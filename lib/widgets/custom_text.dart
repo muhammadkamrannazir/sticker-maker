@@ -15,7 +15,7 @@ class CustomText extends StatelessWidget {
     this.text, {
     Key? key,
     this.maxLines,
-    this.color = Colors.white,
+    this.color = Colors.black,
     this.fontSize,
     this.fontWeight = FontWeight.w400,
     this.textAlign = TextAlign.start,
@@ -26,7 +26,7 @@ class CustomText extends StatelessWidget {
     this.text, {
     Key? key,
     this.maxLines,
-    this.color = Colors.white,
+    this.color = Colors.black,
     this.fontSize = 14,
     this.fontWeight = FontWeight.w400,
     this.textAlign = TextAlign.start,
@@ -37,7 +37,7 @@ class CustomText extends StatelessWidget {
     this.text, {
     Key? key,
     this.maxLines,
-    this.color = Colors.white,
+    this.color = Colors.black,
     this.fontSize = 18,
     this.fontWeight = FontWeight.w600,
     this.textAlign = TextAlign.start,

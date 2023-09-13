@@ -13,8 +13,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool showLanguageButton;
   final bool centerTitle;
   final Color backgroundColor;
+  final List<Widget>? actions;
 
-  const CustomAppBar({
+   CustomAppBar({
     super.key,
     this.title,
     this.child,
@@ -24,6 +25,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.automaticallyImplyLeading = false,
     this.centerTitle = false,
     this.backgroundColor = Colors.transparent,
+    this.actions,
   });
 
   @override
@@ -43,25 +45,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             fontSize: 18.sp,
             fontStyle: FontStyle.normal,
           ),
-      actions: [
-        showLanguageButton == true
-            ? Padding(
-                padding: EdgeInsets.only(right: 20.w),
-                child: CircleAvatar(
-                  radius: 13,
-                  backgroundColor: AppColors.primary,
-                  child: Padding(
-                    padding: EdgeInsets.only(bottom: 5.h),
-                    child: CustomText(
-                      'ع',
-                      color: AppColors.white,
-                      fontSize: 14.sp,
-                    ),
-                  ),
-                ),
-              )
-            : const SizedBox(),
-      ],
+      actions: actions
     );
   }
 }
