@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:sticker_maker/screens/image_picker/image_select.dart';
 import 'package:sticker_maker/screens/making%20sticker/sticker_making.dart';
 
 void main() {
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
       builder: (context, child) => const GetMaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Sticker Maker',
-        home: EditPage(),
+        home: PickImagePage(),
       ),
     );
   }

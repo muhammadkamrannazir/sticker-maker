@@ -1,3 +1,4 @@
+import 'package:crop_image/crop_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,14 +7,12 @@ import 'package:get/get.dart';
 import 'package:sticker_maker/utils/colors.dart';
 import 'package:sticker_maker/widgets/Custom_Button.dart';
 import 'package:sticker_maker/widgets/appbar.dart';
-import 'package:sticker_maker/widgets/toggle_button.dart';
 
 class EditPage extends StatefulWidget {
-  // File onPickImage;
-
-  const EditPage({
+  Image image;
+  EditPage({
     super.key,
-    // required this.onPickImage,
+    required this.image,
   });
 // working on cutout page
   @override
@@ -22,6 +21,10 @@ class EditPage extends StatefulWidget {
 
 class _EditPageState extends State<EditPage> {
   int itemCount = 2000;
+  final controller = CropController(
+    aspectRatio: 1,
+    defaultCrop: const Rect.fromLTRB(0.1, 0.1, 0.9, 0.9),
+  );
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,18 +80,13 @@ class _EditPageState extends State<EditPage> {
                     );
                   },
                 ),
-                SizedBox(
-                  height: 200,
-                  width: 200,
-                  child: Draggable(
-                    feedback: Image.asset(
-                      'assets/a.jpeg',
-                    ),
-                    child: Image.asset(
-                      'assets/a.jpeg',
-                    ),
-                  ),
-                ),
+                widget.image,
+                // Image(image: ImageProvider()),
+                // CropImage(
+                //   controller: controller,
+                //   image: Image.file(File(widget.image.path)),
+                //   alwaysMove: false,
+                // ),
               ],
             ),
           ),
@@ -96,13 +94,13 @@ class _EditPageState extends State<EditPage> {
             height: Get.height * 0.42,
             child: Column(
               children: [
-                ToggleButtonGroup(
-                  buttonTitles: buttonTitlesList,
-                  onButtonSelected: (value) {
-                    toggleButtonIndex = value;
-                    setState(() {});
-                  },
-                ),
+                // ToggleButtonGroup(
+                //   buttonTitles: buttonTitlesList,
+                //   onButtonSelected: (value) {
+                //     toggleButtonIndex = value;
+                //     setState(() {});
+                //   },
+                // ),
                 Expanded(
                   child: Container(
                     color: AppColors.greyShade900,
@@ -126,6 +124,3 @@ class _EditPageState extends State<EditPage> {
 
   var toggleValues = [false, false, true, false];
 }
-
-
-///56

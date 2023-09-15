@@ -1,85 +1,154 @@
-// import 'package:flutter/material.dart';
-// import 'package:flutter/services.dart';
-// import 'package:image_editor_plus/image_editor_plus.dart';
+import 'dart:io';
+import 'package:crop_image/crop_image.dart';
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
-// class ImageEditorExample extends StatefulWidget {
-//   const ImageEditorExample({
-//     super.key,
-//   });
+class tempcrop extends StatefulWidget {
+  const tempcrop({Key? key}) : super(key: key);
 
-//   @override
-//   createState() => _ImageEditorExampleState();
-// }
+  @override
+  State<tempcrop> createState() => _tempcropState();
+}
 
-// class _ImageEditorExampleState extends State<ImageEditorExample> {
-//   Uint8List? imageData;
+class _tempcropState extends State<tempcrop> {
+  final controller = CropController(
+    aspectRatio: 1,
+    defaultCrop: const Rect.fromLTRB(0.1, 0.1, 0.9, 0.9),
+  );
+  XFile? file;
+  cropwidget() {
+    return CropImage(
+      controller: controller,
+      image: Image.file(File(file!.path)),
+      alwaysMove: false,
+    );
+  }
 
-//   @override
-//   void initState() {
-//     super.initState();
-//     loadAsset("image.jpg");
-//   }
+  @override
+  Widget build(BuildContext context) => Scaffold(
+        body: Column(
+          children: [
+            InkWell(
+              onTap: () async {
+                file =
+                    await ImagePicker().pickImage(source: ImageSource.gallery);
+                setState(() {});
+              },
+              child: Container(
+                padding: const EdgeInsets.all(5),
+                decoration: const BoxDecoration(color: Colors.blue),
+                child: const Text(
+                  "Image",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ),
+            if (file != null) cropwidget()
+          ],
+        ),
+        bottomNavigationBar: _buildButtons(),
+      );
 
-//   void loadAsset(String name) async {
-//     var data = await rootBundle.load('assets/$name');
-//     setState(() => imageData = data.buffer.asUint8List());
-//   }
+  Widget _buildButtons() => Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          IconButton(
+            icon: const Icon(Icons.center_focus_strong_rounded),
+            // icon:  Icon(Icons.radio_button_unchecked_outlined),
+            onPressed: () {
+              controller.rotation = CropRotation.up;
+              controller.crop = const Rect.fromLTRB(0.1, 0.1, 0.9, 0.9);
+              controller.aspectRatio = 1.0;
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.aspect_ratio),
+            onPressed: _aspectRatios,
+          ),
+          IconButton(
+            icon: const Icon(Icons.rotate_90_degrees_ccw_outlined),
+            onPressed: _rotateLeft,
+          ),
+          IconButton(
+            icon: const Icon(Icons.rotate_90_degrees_cw_outlined),
+            onPressed: _rotateRight,
+          ),
+          TextButton(
+            onPressed: _finished,
+            child: const Text('Done'),
+          ),
+        ],
+      );
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text("ImageEditor Example"),
-//         centerTitle: true,
-//       ),
-//       body: Column(
-//         mainAxisAlignment: MainAxisAlignment.center,
-//         children: [
-//           if (imageData != null) Image.memory(imageData!),
-//           const SizedBox(height: 16),
-//           ElevatedButton(
-//             child: const Text("Single image editor"),
-//             onPressed: () async {
-//               var editedImage = await Navigator.push(
-//                 context,
-//                 MaterialPageRoute(
-//                   builder: (context) => ImageEditor(
-//                     image: imageData,
-//                   ),
-//                 ),
-//               );
+  Future<void> _aspectRatios() async {
+    final value = await showDialog<double>(
+      context: context,
+      builder: (context) {
+        return SimpleDialog(
+          title: const Text('Select aspect ratio'),
+          children: [
+            // special case: no aspect ratio
+            SimpleDialogOption(
+              onPressed: () => Navigator.pop(context, -1.0),
+              child: const Text('free'),
+            ),
+            SimpleDialogOption(
+              onPressed: () => Navigator.pop(context, 1.0),
+              child: const Text('square'),
+            ),
+            SimpleDialogOption(
+              onPressed: () => Navigator.pop(context, 2.0),
+              child: const Text('2:1'),
+            ),
+            SimpleDialogOption(
+              onPressed: () => Navigator.pop(context, 1 / 2),
+              child: const Text('1:2'),
+            ),
+            SimpleDialogOption(
+              onPressed: () => Navigator.pop(context, 4.0 / 3.0),
+              child: const Text('4:3'),
+            ),
+            SimpleDialogOption(
+              onPressed: () => Navigator.pop(context, 16.0 / 9.0),
+              child: const Text('16:9'),
+            ),
+          ],
+        );
+      },
+    );
+    if (value != null) {
+      controller.aspectRatio = value == -1 ? null : value;
+      controller.crop = const Rect.fromLTRB(0.1, 0.1, 0.9, 0.9);
+    }
+  }
 
-//               // replace with edited image
-//               if (editedImage != null) {
-//                 imageData = editedImage;
-//                 setState(() {});
-//               }
-//             },
-//           ),
-//           // ElevatedButton(
-//           //   child: const Text("Multiple image editor"),
-//           //   onPressed: () async {
-//           //     var editedImage = await Navigator.push(
-//           //       context,
-//           //       MaterialPageRoute(
-//           //         builder: (context) => ImageEditor(
-//           //           images: [
-//           //             imageData,
-//           //             imageData,
-//           //           ],
-//           //         ),
-//           //       ),
-//           //     );
+  Future<void> _rotateLeft() async => controller.rotateLeft();
+  Future<void> _rotateRight() async => controller.rotateRight();
 
-//           //     // replace with edited image
-//           //     if (editedImage != null) {
-//           //       imageData = editedImage;
-//           //       setState(() {});
-//           //     }
-//           //   },
-//           // ),
-//         ],
-//       ),
-//     );
-//   }
-// }
+  Future<void> _finished() async {
+    final image = await controller.croppedImage();
+    // ignore: use_build_context_synchronously
+    await showDialog<bool>(
+      context: context,
+      builder: (context) {
+        return SimpleDialog(
+          contentPadding: const EdgeInsets.all(6.0),
+          titlePadding: const EdgeInsets.all(8.0),
+          title: const Text('Cropped image'),
+          children: [
+            Text('relative: ${controller.crop}'),
+            Text('pixels: ${controller.cropSize}'),
+            const SizedBox(height: 5),
+            image,
+            TextButton(
+              onPressed: () => Navigator.pop(context, true),
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+}

@@ -1,4 +1,6 @@
 import 'dart:io';
+
+import 'package:crop_image/crop_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -6,6 +8,7 @@ import 'package:sticker_maker/screens/making%20sticker/sticker_making.dart';
 import 'package:sticker_maker/utils/colors.dart';
 import 'package:sticker_maker/widgets/Custom_Button.dart';
 import 'package:sticker_maker/widgets/appbar.dart';
+import 'package:sticker_maker/widgets/toggle_button.dart';
 
 class ImageCutOutPage extends StatefulWidget {
   File onPickImage;
@@ -20,7 +23,12 @@ class ImageCutOutPage extends StatefulWidget {
 }
 
 class _ImageCutOutPageState extends State<ImageCutOutPage> {
-  bool isCircle = false;
+  final controller = CropController(
+    aspectRatio: 1,
+    defaultCrop: const Rect.fromLTRB(0.1, 0.1, 0.9, 0.9),
+  );
+  double _scale = 1.0;
+  double _previousScale = 1.0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,8 +40,11 @@ class _ImageCutOutPageState extends State<ImageCutOutPage> {
         actions: [
           CustomButton(
             name: 'NEXT',
-            onPressed: () {
-              Get.to(const EditPage());
+            onPressed: () async {
+              final image = await controller.croppedImage();
+              Get.to(EditPage(
+                image: image,
+              ));
             },
           ),
           SizedBox(width: 12.w),
@@ -42,30 +53,30 @@ class _ImageCutOutPageState extends State<ImageCutOutPage> {
       body: Column(
         children: [
           Expanded(
-            child: Column(
-              children: [
-                Center(
-                  child: isCircle == true
-                      ? Container(
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50),
-                            border: Border.all(width: 2, color: Colors.white),
-                            image: DecorationImage(
-                              image: FileImage(widget.onPickImage),
-                            ),
-                          ),
-                        )
-                      : CircleAvatar(
-                          backgroundColor: Colors.white,
-                          radius: 122,
-                          child: CircleAvatar(
-                            radius: 120,
-                            backgroundImage: FileImage(widget.onPickImage),
-                          ),
+            child: Center(
+              child: toggleButtonIndex == 0
+                  ? CropImage(
+                      controller: controller,
+                      image: Image.file(widget.onPickImage),
+                      alwaysMove: true,
+                    )
+                  : GestureDetector(
+                      onScaleStart: (details) {
+                        _previousScale = _scale;
+                      },
+                      onScaleUpdate: (details) {
+                        setState(() {
+                          _scale = _previousScale * details.scale;
+                        });
+                      },
+                      child: Transform.scale(
+                        scale: _scale,
+                        child: Image.file(
+                          widget.onPickImage,
+                          fit: BoxFit.contain,
                         ),
-                ),
-              ],
+                      ),
+                    ),
             ),
           ),
           Column(
@@ -74,53 +85,48 @@ class _ImageCutOutPageState extends State<ImageCutOutPage> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   CircularIconButton(
-                    icon: Icons.crop_free_sharp,
-                    onPressed: () {},
-                  ),
-                  CircularIconButton(
-                    icon: Icons.rotate_right,
-                    onPressed: () {},
+                    icon: Icons.center_focus_strong_rounded,
+                    onPressed: () {
+                      controller.rotation = CropRotation.up;
+                      controller.crop = const Rect.fromLTRB(0.1, 0.1, 0.9, 0.9);
+                      controller.aspectRatio = 1.0;
+                    },
                   ),
                   CircularIconButton(
                     icon: Icons.rotate_left,
-                    onPressed: () {},
+                    onPressed: _rotateLeft,
+                  ),
+                  CircularIconButton(
+                    icon: Icons.rotate_right,
+                    onPressed: _rotateRight,
                   ),
                   SizedBox(width: 10.w),
                 ],
               ),
               //////1/
               Container(
-                height: 100.h,
                 color: AppColors.grey.shade900,
                 child: Row(
                   children: [
-                    Expanded(
-                      child: CustomIconButton(
-                        name: 'Square',
-                        icon: Icons.crop_square_outlined,
-                        onPressed: () {},
-                      ),
-                    ),
-                    Expanded(
-                      child: CustomIconButton(
-                        name: 'Circle',
-                        icon: Icons.circle_outlined,
-                        onPressed: () {},
-                      ),
-                    ),
-                    Expanded(
-                      child: CustomIconButton(
-                        name: 'Free Hand',
-                        icon: Icons.ads_click_rounded,
-                        onPressed: () {},
-                      ),
-                    ),
-                    Expanded(
-                      child: CustomIconButton(
-                        name: 'Select All',
-                        icon: Icons.select_all_rounded,
-                        onPressed: () {},
-                      ),
+                    ToggleButtonGroup(
+                      buttonIcons: const [
+                        Icons.crop_square_outlined,
+                        Icons.circle_outlined,
+                        Icons.ads_click_rounded,
+                        Icons.select_all_rounded,
+                      ],
+                      buttonTexts: const [
+                        'Square',
+                        'Circle',
+                        'Free Hand',
+                        'Select All',
+                      ],
+                      // buttonTitles: buttonTitlesList,
+                      onButtonSelected: (value) {
+                        toggleButtonIndex = value;
+                        setState(() {});
+                        print(toggleButtonIndex);
+                      },
                     ),
                   ],
                 ),
@@ -131,4 +137,56 @@ class _ImageCutOutPageState extends State<ImageCutOutPage> {
       ),
     );
   }
+
+  int toggleButtonIndex = 0;
+  List<String> buttonTitlesList = [
+    '1',
+    '5',
+    '20',
+    '50',
+  ];
+  Future<void> _aspectRatios() async {
+    final value = await showDialog<double>(
+      context: context,
+      builder: (context) {
+        return SimpleDialog(
+          title: const Text('Select aspect ratio'),
+          children: [
+            // special case: no aspect ratio
+            SimpleDialogOption(
+              onPressed: () => Navigator.pop(context, -1.0),
+              child: const Text('free'),
+            ),
+            SimpleDialogOption(
+              onPressed: () => Navigator.pop(context, 1.0),
+              child: const Text('square'),
+            ),
+            SimpleDialogOption(
+              onPressed: () => Navigator.pop(context, 2.0),
+              child: const Text('2:1'),
+            ),
+            SimpleDialogOption(
+              onPressed: () => Navigator.pop(context, 1 / 2),
+              child: const Text('1:2'),
+            ),
+            SimpleDialogOption(
+              onPressed: () => Navigator.pop(context, 4.0 / 3.0),
+              child: const Text('4:3'),
+            ),
+            SimpleDialogOption(
+              onPressed: () => Navigator.pop(context, 16.0 / 9.0),
+              child: const Text('16:9'),
+            ),
+          ],
+        );
+      },
+    );
+    if (value != null) {
+      controller.aspectRatio = value == -1 ? null : value;
+      controller.crop = const Rect.fromLTRB(0.1, 0.1, 0.9, 0.9);
+    }
+  }
+
+  Future<void> _rotateLeft() async => controller.rotateLeft();
+  Future<void> _rotateRight() async => controller.rotateRight();
 }
