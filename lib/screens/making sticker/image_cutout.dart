@@ -8,6 +8,7 @@ import 'package:sticker_maker/screens/making%20sticker/sticker_making.dart';
 import 'package:sticker_maker/utils/colors.dart';
 import 'package:sticker_maker/widgets/Custom_Button.dart';
 import 'package:sticker_maker/widgets/appbar.dart';
+import 'package:sticker_maker/widgets/circular_crop.dart';
 import 'package:sticker_maker/widgets/toggle_button.dart';
 
 class ImageCutOutPage extends StatefulWidget {
@@ -54,29 +55,36 @@ class _ImageCutOutPageState extends State<ImageCutOutPage> {
         children: [
           Expanded(
             child: Center(
-              child: toggleButtonIndex == 0
-                  ? CropImage(
-                      controller: controller,
-                      image: Image.file(widget.onPickImage),
-                      alwaysMove: true,
-                    )
-                  : GestureDetector(
-                      onScaleStart: (details) {
-                        _previousScale = _scale;
-                      },
-                      onScaleUpdate: (details) {
-                        setState(() {
-                          _scale = _previousScale * details.scale;
-                        });
-                      },
-                      child: Transform.scale(
-                        scale: _scale,
-                        child: Image.file(
-                          widget.onPickImage,
-                          fit: BoxFit.contain,
+              child: Stack(
+                children: [
+                  toggleButtonIndex == 0
+                      ? CropImage(
+                          controller: controller,
+                          image: Image.file(widget.onPickImage),
+                          alwaysMove: true,
+                        )
+                      : GestureDetector(
+                          onScaleStart: (details) {
+                            _previousScale = _scale;
+                          },
+                          onScaleUpdate: (details) {
+                            setState(() {
+                              _scale = _previousScale * details.scale;
+                            });
+                          },
+                          child: Transform.scale(
+                            scale: _scale,
+                            child: Image.file(
+                              widget.onPickImage,
+                              fit: BoxFit.contain,
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
+                  toggleButtonIndex == 1
+                      ? CircularCrop()
+                      : const SizedBox(), // Add the circular crop overlay
+                ],
+              ),
             ),
           ),
           Column(
