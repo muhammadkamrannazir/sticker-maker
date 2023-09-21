@@ -93,6 +93,10 @@ class _ImageCutOutPageState extends State<ImageCutOutPage> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   CircularIconButton(
+                    icon: Icons.aspect_ratio,
+                    onPressed: _aspectRatios,
+                  ),
+                  CircularIconButton(
                     icon: Icons.center_focus_strong_rounded,
                     onPressed: () {
                       controller.rotation = CropRotation.up;

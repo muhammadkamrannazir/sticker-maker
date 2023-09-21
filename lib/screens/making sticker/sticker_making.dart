@@ -2,8 +2,6 @@ import 'package:crop_image/crop_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:get/get.dart';
 import 'package:sticker_maker/utils/colors.dart';
 import 'package:sticker_maker/widgets/Custom_Button.dart';
 import 'package:sticker_maker/widgets/appbar.dart';
@@ -25,6 +23,8 @@ class _EditPageState extends State<EditPage> {
     aspectRatio: 1,
     defaultCrop: const Rect.fromLTRB(0.1, 0.1, 0.9, 0.9),
   );
+  double _left = 0.0;
+  double _top = 0.0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,20 +67,36 @@ class _EditPageState extends State<EditPage> {
             child: Stack(
               alignment: Alignment.center,
               children: [
-                AlignedGridView.count(
-                  crossAxisCount: 29,
-                  itemCount: itemCount,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      height: 10.h,
-                      width: 10.w,
-                      color: index % 2 == 1
-                          ? AppColors.white
-                          : AppColors.greyShade200,
-                    );
-                  },
+                // AlignedGridView.count(
+                //   crossAxisCount: 29,
+                //   itemCount: itemCount,
+                //   itemBuilder: (context, index) {
+                //     return Container(
+                //       height: 10.h,
+                //       width: 10.w,
+                //       color: index % 2 == 1
+                //           ? AppColors.white
+                //           : AppColors.greyShade200,
+                //     );
+                //   },
+                // ),
+                InteractiveViewer(
+                  minScale: 0.2,
+                  maxScale: 10,
+                  child: Positioned(
+                    left: _left,
+                    top: _top,
+                    child: GestureDetector(
+                      onPanUpdate: (details) {
+                        setState(() {
+                          _left += details.delta.dx;
+                          _top += details.delta.dy;
+                        });
+                      },
+                      child: widget.image,
+                    ),
+                  ),
                 ),
-                widget.image,
                 // Image(image: ImageProvider()),
                 // CropImage(
                 //   controller: controller,
@@ -90,25 +106,25 @@ class _EditPageState extends State<EditPage> {
               ],
             ),
           ),
-          SizedBox(
-            height: Get.height * 0.42,
-            child: Column(
-              children: [
-                // ToggleButtonGroup(
-                //   buttonTitles: buttonTitlesList,
-                //   onButtonSelected: (value) {
-                //     toggleButtonIndex = value;
-                //     setState(() {});
-                //   },
-                // ),
-                Expanded(
-                  child: Container(
-                    color: AppColors.greyShade900,
-                  ),
-                ),
-              ],
-            ),
-          ),
+          // SizedBox(
+          //   height: Get.height * 0.42,
+          //   child: Column(
+          //     children: [
+          //       // ToggleButtonGroup(
+          //       //   buttonTitles: buttonTitlesList,
+          //       //   onButtonSelected: (value) {
+          //       //     toggleButtonIndex = value;
+          //       //     setState(() {});
+          //       //   },
+          //       // ),
+          //       Expanded(
+          //         child: Container(
+          //           color: AppColors.greyShade900,
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
         ],
       ),
     );

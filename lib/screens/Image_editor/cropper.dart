@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class CustomStickerEditor extends StatefulWidget {
-
   const CustomStickerEditor({super.key});
 
   @override
@@ -16,64 +15,75 @@ class _CustomStickerEditorState extends State<CustomStickerEditor> {
   double _left = 0.0;
   double _top = 0.0;
   XFile? file;
-  bool iscrop=false;
+  bool iscrop = false;
   final controller = CropController(
-
     aspectRatio: 1,
-    defaultCrop: Rect.fromLTRB(0.1, 0.1, 0.9, 0.9),
+    defaultCrop: const Rect.fromLTRB(0.1, 0.1, 0.9, 0.9),
   );
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          SizedBox(height: 25,),
+          const SizedBox(
+            height: 25,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              InkWell(child: Container(
-            padding: EdgeInsets.all(5),
-              decoration: BoxDecoration(color: Colors.blue),
-              child: Text("Text",style: TextStyle(color: Colors.white),)),),
-              SizedBox(width: 5,),
+              InkWell(
+                child: Container(
+                    padding: const EdgeInsets.all(5),
+                    decoration: const BoxDecoration(color: Colors.blue),
+                    child: const Text(
+                      "Text",
+                      style: TextStyle(color: Colors.white),
+                    )),
+              ),
+              const SizedBox(
+                width: 5,
+              ),
               InkWell(
                 onTap: () async {
-                  file=await ImagePicker().pickImage(source: ImageSource.gallery);
-                  setState(() {
-
-                  });
+                  file = await ImagePicker()
+                      .pickImage(source: ImageSource.gallery);
+                  setState(() {});
                 },
                 child: Container(
-                  padding: EdgeInsets.all(5),
-                  decoration: BoxDecoration(color: Colors.blue),
-                  child: Text("Image",style: TextStyle(color: Colors.white),)),),
-              SizedBox(width: 5,),
+                    padding: const EdgeInsets.all(5),
+                    decoration: const BoxDecoration(color: Colors.blue),
+                    child: const Text(
+                      "Image",
+                      style: TextStyle(color: Colors.white),
+                    )),
+              ),
+              const SizedBox(
+                width: 5,
+              ),
               InkWell(
                 onTap: () async {
-                  iscrop=!iscrop;
-                  setState(() {
-
-                  });
+                  iscrop = !iscrop;
+                  setState(() {});
                 },
                 child: Container(
-                    padding: EdgeInsets.all(5),
-                    decoration: BoxDecoration(color: Colors.blue),
-                    child: Text("Crop",style: TextStyle(color: Colors.white),)),)
-
+                    padding: const EdgeInsets.all(5),
+                    decoration: const BoxDecoration(color: Colors.blue),
+                    child: const Text(
+                      "Crop",
+                      style: TextStyle(color: Colors.white),
+                    )),
+              )
             ],
-
           ),
           SizedBox(
-            height: MediaQuery.of(context).size.height-70,
+            height: MediaQuery.of(context).size.height - 70,
             child: Stack(
               children: [
-                if(file!=null)
-             Positioned.fill(
-               child: iscrop?cropwidget():Image.file(File(file!.path)),
-
-             ),
+                if (file != null)
+                  Positioned.fill(
+                    child: iscrop ? cropwidget() : Image.file(File(file!.path)),
+                  ),
                 Positioned(
                   left: _left,
                   top: _top,
@@ -86,8 +96,8 @@ class _CustomStickerEditorState extends State<CustomStickerEditor> {
                     },
                     child: Container(
                       color: Colors.blue,
-                      padding: EdgeInsets.all(8.0),
-                      child: Text(
+                      padding: const EdgeInsets.all(8.0),
+                      child: const Text(
                         'Drag me!',
                         style: TextStyle(fontSize: 20, color: Colors.white),
                       ),
@@ -101,13 +111,12 @@ class _CustomStickerEditorState extends State<CustomStickerEditor> {
       ),
     );
   }
-  cropwidget(){
-    return CropImage(
 
+  cropwidget() {
+    return CropImage(
       controller: controller,
       image: Image.file(File(file!.path)),
       alwaysMove: true,
-
-);
-}
+    );
+  }
 }
