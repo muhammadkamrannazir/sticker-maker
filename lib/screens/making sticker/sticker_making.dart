@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sticker_maker/utils/colors.dart';
 import 'package:sticker_maker/widgets/Custom_Button.dart';
 import 'package:sticker_maker/widgets/appbar.dart';
+import 'package:undo/undo.dart';
 
 class EditPage extends StatefulWidget {
   Image image;
@@ -25,6 +26,8 @@ class _EditPageState extends State<EditPage> {
   );
   double _left = 0.0;
   double _top = 0.0;
+  var changes = ChangeStack();
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,6 +66,7 @@ class _EditPageState extends State<EditPage> {
       ),
       body: Column(
         children: [
+          Container(color: Colors.white, child: const TextField()),
           Expanded(
             child: Stack(
               alignment: Alignment.center,
@@ -139,4 +143,5 @@ class _EditPageState extends State<EditPage> {
   ];
 
   var toggleValues = [false, false, true, false];
+  
 }

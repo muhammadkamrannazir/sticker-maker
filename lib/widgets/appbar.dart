@@ -15,7 +15,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Color backgroundColor;
   final List<Widget>? actions;
 
-   CustomAppBar({
+  const CustomAppBar({
     super.key,
     this.title,
     this.child,
@@ -34,18 +34,18 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      centerTitle: centerTitle,
-      backgroundColor: backgroundColor,
-      automaticallyImplyLeading: automaticallyImplyLeading,
-      leading: leading,
-      title: child ??
-          CustomText(
-            title ?? '',
-            fontWeight: FontWeight.w600,
-            fontSize: 18.sp,
-            fontStyle: FontStyle.normal,
-          ),
-      actions: actions
-    );
+        centerTitle: centerTitle,
+        backgroundColor: backgroundColor,
+        automaticallyImplyLeading: automaticallyImplyLeading,
+        leading: leading,
+        title: child ??
+            CustomText(
+              title ?? '',
+              fontWeight: FontWeight.w600,
+              fontSize: 18.sp,
+              color: Colors.white,
+              fontStyle: FontStyle.normal,
+            ),
+        actions: actions);
   }
 }
