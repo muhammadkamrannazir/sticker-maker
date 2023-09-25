@@ -6,7 +6,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:sticker_maker/widgets/custom_text.dart';
-import '../../screens/home.dart';
 import '../../utils/colors.dart';
 import '../../widgets/Custom_Button.dart';
 import '../../widgets/toggle_button.dart';
@@ -162,8 +161,10 @@ class _EditImageScreenState extends EditImageViewModel {
                 onPressed: () {
                   Get.dialog(
                     CupertinoAlertDialog(
-                      content:
-                          CustomText('Are you want to save the edited image?'),
+                      content: CustomText(
+                        'Are you want to save the edited image?',
+                        color: Colors.black,
+                      ),
                       actions: [
                         Container(
                           color: Colors.grey,
@@ -171,16 +172,20 @@ class _EditImageScreenState extends EditImageViewModel {
                             onPressed: () {
                               Get.back();
                             },
-                            child: CustomText('No'),
+                            child: CustomText(
+                              'No',
+                              color: Colors.black,
+                            ),
                           ),
                         ),
                         Container(
                           color: Colors.blue,
                           child: TextButton(
-                            onPressed: () {
-                              saveToGallery(context);
-                            },
-                            child: CustomText('Yes'),
+                            onPressed: saveToGallery(context),
+                            child: CustomText(
+                              'Yes',
+                              color: Colors.black,
+                            ),
                           ),
                         ),
                       ],
