@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:sticker_maker/widgets/custom_text.dart';
+import '../../screens/home.dart';
 import '../../utils/colors.dart';
 import '../../widgets/Custom_Button.dart';
 import '../../widgets/toggle_button.dart';
@@ -148,19 +149,45 @@ class _EditImageScreenState extends EditImageViewModel {
       );
 
   AppBar get _appBar => AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.grey.shade900,
+        elevation: 0,
         automaticallyImplyLeading: false,
         title: SizedBox(
-          height: 50,
+          height: 40,
           child: ListView(
             scrollDirection: Axis.horizontal,
             children: [
               IconButton(
-                icon: const Icon(
-                  Icons.save,
-                  color: Colors.black,
-                ),
-                onPressed: () => saveToGallery(context),
+                icon: const Icon(Icons.save),
+                onPressed: () {
+                  Get.dialog(
+                    CupertinoAlertDialog(
+                      content:
+                          CustomText('Are you want to save the edited image?'),
+                      actions: [
+                        Container(
+                          color: Colors.grey,
+                          child: TextButton(
+                            onPressed: () {
+                              Get.back();
+                            },
+                            child: CustomText('No'),
+                          ),
+                        ),
+                        Container(
+                          color: Colors.blue,
+                          child: TextButton(
+                            onPressed: () {
+                              saveToGallery(context);
+                              Get.off(const HomePage());
+                            },
+                            child: CustomText('Yes'),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
                 tooltip: 'Save Image',
               ),
             ],

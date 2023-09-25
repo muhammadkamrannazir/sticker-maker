@@ -1,8 +1,10 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:screenshot/screenshot.dart';
+import 'package:sticker_maker/screens/home.dart';
 import '../models/text_info.dart';
 import '../screens/edit_image_screen.dart';
 import '../utils/utils.dart';
@@ -178,15 +180,15 @@ abstract class EditImageViewModel extends State<EditImageScreen> {
         actions: <Widget>[
           DefaultButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Back'),
             color: Colors.white,
             textColor: Colors.black,
+            child: const Text('Back'),
           ),
           DefaultButton(
             onPressed: () => addNewText(context),
-            child: const Text('Add Text'),
             color: Colors.red,
             textColor: Colors.white,
+            child: const Text('Add Text'),
           ),
         ],
       ),
