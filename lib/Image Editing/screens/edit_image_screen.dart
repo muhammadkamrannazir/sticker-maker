@@ -123,7 +123,7 @@ class _EditImageScreenState extends EditImageViewModel {
     );
   }
 
-  int toggleButtonIndex = 0;
+  int toggleButtonIndex = 0;f
 
   Widget get _selectedImage => Center(
         child: CropImage(
