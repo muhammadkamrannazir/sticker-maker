@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:screenshot/screenshot.dart';
+import 'package:sticker_maker/utils/colors.dart';
+import '../../widgets/toggle_button.dart';
 import '../widgets/edit_image_viewmodel.dart';
 import '../widgets/image_text.dart';
 
@@ -18,64 +20,101 @@ class _EditImageScreenState extends EditImageViewModel {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _appBar,
-      body: Screenshot(
-        controller: screenshotController,
-        child: SafeArea(
-          child: SizedBox(
-            height: MediaQuery.of(context).size.height * 0.3,
-            child: Stack(
-              children: [
-                _selectedImage,
-                for (int i = 0; i < texts.length; i++)
-                  Positioned(
-                    left: texts[i].left,
-                    top: texts[i].top,
-                    child: GestureDetector(
-                      onLongPress: () {
-                        setState(() {
-                          currentIndex = i;
-                          removeText(context);
-                        });
-                      },
-                      onTap: () => setCurrentIndex(context, i),
-                      child: Draggable(
-                        feedback: ImageText(textInfo: texts[i]),
-                        child: ImageText(textInfo: texts[i]),
-                        onDragEnd: (drag) {
-                          final renderBox =
-                              context.findRenderObject() as RenderBox;
-                          Offset off = renderBox.globalToLocal(drag.offset);
-                          setState(() {
-                            texts[i].top = off.dy - 96;
-                            texts[i].left = off.dx;
-                          });
-                        },
-                      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: Center(
+              child: Screenshot(
+                controller: screenshotController,
+                child: SafeArea(
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.3,
+                    child: Stack(
+                      children: [
+                        _selectedImage,
+                        for (int i = 0; i < texts.length; i++)
+                          Positioned(
+                            left: texts[i].left,
+                            top: texts[i].top,
+                            child: GestureDetector(
+                              onLongPress: () {
+                                setState(() {
+                                  currentIndex = i;
+                                  removeText(context);
+                                });
+                              },
+                              onTap: () => setCurrentIndex(context, i),
+                              child: Draggable(
+                                feedback: ImageText(textInfo: texts[i]),
+                                child: ImageText(textInfo: texts[i]),
+                                onDragEnd: (drag) {
+                                  final renderBox =
+                                      context.findRenderObject() as RenderBox;
+                                  Offset off =
+                                      renderBox.globalToLocal(drag.offset);
+                                  setState(() {
+                                    texts[i].top = off.dy - 96;
+                                    texts[i].left = off.dx;
+                                  });
+                                },
+                              ),
+                            ),
+                          ),
+                        creatorText.text.isNotEmpty
+                            ? Positioned(
+                                left: 0,
+                                bottom: 0,
+                                child: Text(
+                                  creatorText.text,
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black.withOpacity(
+                                        0.3,
+                                      )),
+                                ),
+                              )
+                            : const SizedBox.shrink(),
+                      ],
                     ),
                   ),
-                creatorText.text.isNotEmpty
-                    ? Positioned(
-                        left: 0,
-                        bottom: 0,
-                        child: Text(
-                          creatorText.text,
-                          style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black.withOpacity(
-                                0.3,
-                              )),
-                        ),
-                      )
-                    : const SizedBox.shrink(),
+                ),
+              ),
+            ),
+          ),
+          Container(
+            color: AppColors.grey.shade900,
+            child: Row(
+              children: [
+                ToggleButtonGroup(
+                  buttonIcons: const [
+                    Icons.crop_square_outlined,
+                    Icons.circle_outlined,
+                    Icons.ads_click_rounded,
+                    Icons.select_all_rounded,
+                  ],
+                  // buttonTexts: const [
+                  //   'Square',
+                  //   'Circle',
+                  //   'Free Hand',
+                  //   'Select All',
+                  // ],
+                  // buttonTitles: buttonTitlesList,
+                  onButtonSelected: (value) {
+                    toggleButtonIndex = value;
+                    setState(() {});
+                    print(toggleButtonIndex);
+                  },
+                ),
               ],
             ),
           ),
-        ),
+        ],
       ),
-      floatingActionButton: _addnewTextFab,
     );
   }
+
+  int toggleButtonIndex = 0;
 
   Widget get _selectedImage => Center(
         child: Image.file(
@@ -92,7 +131,7 @@ class _EditImageScreenState extends EditImageViewModel {
         backgroundColor: Colors.white,
         tooltip: 'Add New Text',
         child: const Icon(
-          Icons.edit,
+          Icons.add,
           color: Colors.black,
         ),
       );
@@ -105,6 +144,7 @@ class _EditImageScreenState extends EditImageViewModel {
           child: ListView(
             scrollDirection: Axis.horizontal,
             children: [
+              _addnewTextFab,
               IconButton(
                 icon: const Icon(
                   Icons.save,
@@ -115,7 +155,7 @@ class _EditImageScreenState extends EditImageViewModel {
               ),
               IconButton(
                 icon: const Icon(
-                  Icons.add,
+                  Icons.text_increase,
                   color: Colors.black,
                 ),
                 onPressed: increaseFontSize,
@@ -123,7 +163,7 @@ class _EditImageScreenState extends EditImageViewModel {
               ),
               IconButton(
                 icon: const Icon(
-                  Icons.remove,
+                  Icons.text_decrease,
                   color: Colors.black,
                 ),
                 onPressed: decreaseFontSize,

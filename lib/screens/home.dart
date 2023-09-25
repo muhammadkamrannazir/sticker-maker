@@ -99,7 +99,6 @@ class _HomePageState extends State<HomePage> {
                     onPressed: () async {
                       XFile? photo =
                           await picker.pickImage(source: ImageSource.camera);
-
                       // if (photo != null) {
                       //   imagefile = File(photo.path);
                       //   setState(() {});
