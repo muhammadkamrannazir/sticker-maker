@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:crop_image/crop_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,12 +7,13 @@ import 'package:get/get.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:sticker_maker/widgets/custom_text.dart';
 import '../../utils/colors.dart';
+import '../../widgets/Custom_Button.dart';
 import '../../widgets/toggle_button.dart';
 import '../widgets/edit_image_viewmodel.dart';
 import '../widgets/image_text.dart';
 
 class EditImageScreen extends StatefulWidget {
-  final String selectedImage;
+  final File selectedImage;
   const EditImageScreen({Key? key, required this.selectedImage})
       : super(key: key);
 
@@ -20,6 +22,10 @@ class EditImageScreen extends StatefulWidget {
 }
 
 class _EditImageScreenState extends EditImageViewModel {
+  final controller = CropController(
+    aspectRatio: 1,
+    defaultCrop: const Rect.fromLTRB(0.1, 0.1, 0.9, 0.9),
+  );
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,25 +71,22 @@ class _EditImageScreenState extends EditImageViewModel {
                               ),
                             ),
                           ),
-                        creatorText.text.isNotEmpty
-                            ? Positioned(
-                                left: 0,
-                                bottom: 0,
-                                child: Text(
-                                  creatorText.text,
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black.withOpacity(
-                                        0.3,
-                                      )),
-                                ),
-                              )
-                            : const SizedBox.shrink(),
-                        Slider(
-                          value: 0.8,
-                          onChanged: (value) {},
-                        ),
+
+                        // creatorText.text.isNotEmpty
+                        //     ? Positioned(
+                        //         left: 0,
+                        //         bottom: 0,
+                        //         child: Text(
+                        //           creatorText.text,
+                        //           style: TextStyle(
+                        //               fontSize: 20,
+                        //               fontWeight: FontWeight.bold,
+                        //               color: Colors.black.withOpacity(
+                        //                 0.3,
+                        //               )),
+                        //         ),
+                        //       )
+                        //     : const SizedBox.shrink(),
                       ],
                     ),
                   ),
@@ -92,94 +95,8 @@ class _EditImageScreenState extends EditImageViewModel {
             ),
           ),
           const Divider(color: Colors.white),
-          toggleButtonIndex == 0
-              ? SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: [
-                      _addnewTextFab,
-                      IconButton(
-                        icon: const Icon(
-                          Icons.text_increase,
-                          color: Colors.white,
-                        ),
-                        onPressed: increaseFontSize,
-                        tooltip: 'Increase font size',
-                      ),
-                      IconButton(
-                        icon: const Icon(
-                          Icons.text_decrease,
-                          color: Colors.white,
-                        ),
-                        onPressed: decreaseFontSize,
-                        tooltip: 'Decrease font size',
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Get.bottomSheet(
-                            colorBottomSheet(),
-                            isScrollControlled: true,
-                            persistent: false,
-                            enableDrag: false,
-                          );
-                        },
-                        child: const Icon(
-                          Icons.color_lens_rounded,
-                          color: Colors.white,
-                        ),
-                      ),
-                      IconButton(
-                        icon: const Icon(
-                          Icons.format_align_left,
-                          color: Colors.white,
-                        ),
-                        onPressed: alignLeft,
-                        tooltip: 'Align left',
-                      ),
-                      IconButton(
-                        icon: const Icon(
-                          Icons.format_align_center,
-                          color: Colors.white,
-                        ),
-                        onPressed: alignCenter,
-                        tooltip: 'Align Center',
-                      ),
-                      IconButton(
-                        icon: const Icon(
-                          Icons.format_align_right,
-                          color: Colors.white,
-                        ),
-                        onPressed: alignRight,
-                        tooltip: 'Align Right',
-                      ),
-                      IconButton(
-                        icon: const Icon(
-                          Icons.format_bold,
-                          color: Colors.white,
-                        ),
-                        onPressed: boldText,
-                        tooltip: 'Bold',
-                      ),
-                      IconButton(
-                        icon: const Icon(
-                          Icons.format_italic,
-                          color: Colors.white,
-                        ),
-                        onPressed: italicText,
-                        tooltip: 'Italic',
-                      ),
-                      IconButton(
-                        icon: const Icon(
-                          Icons.space_bar,
-                          color: Colors.white,
-                        ),
-                        onPressed: addLinesToText,
-                        tooltip: 'Add New Line',
-                      ),
-                    ],
-                  ),
-                )
-              : const SizedBox(),
+          toggleButtonIndex == 0 ? imageOptions() : const SizedBox(),
+          toggleButtonIndex == 1 ? textOptions() : const SizedBox(),
           Divider(color: AppColors.primary),
           Padding(
             padding: const EdgeInsets.only(bottom: 5),
@@ -187,8 +104,8 @@ class _EditImageScreenState extends EditImageViewModel {
               children: [
                 ToggleButtonGroup(
                   buttonIcons: const [
-                    CupertinoIcons.textformat,
                     Icons.circle_outlined,
+                    CupertinoIcons.textformat,
                     Icons.ads_click_rounded,
                     Icons.select_all_rounded,
                   ],
@@ -209,12 +126,14 @@ class _EditImageScreenState extends EditImageViewModel {
   int toggleButtonIndex = 0;
 
   Widget get _selectedImage => Center(
-        child: Image.file(
-          File(
+        child: CropImage(
+          controller: controller,
+          image: Image.file(
             widget.selectedImage,
+            fit: BoxFit.fitWidth,
+            width: MediaQuery.of(context).size.width,
           ),
-          fit: BoxFit.fill,
-          width: MediaQuery.of(context).size.width,
+          alwaysMove: true,
         ),
       );
 
@@ -414,4 +333,178 @@ class _EditImageScreenState extends EditImageViewModel {
       ),
     );
   }
+
+  Widget textOptions() {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: [
+          _addnewTextFab,
+          IconButton(
+            icon: const Icon(
+              Icons.text_increase,
+              color: Colors.white,
+            ),
+            onPressed: increaseFontSize,
+            tooltip: 'Increase font size',
+          ),
+          IconButton(
+            icon: const Icon(
+              Icons.text_decrease,
+              color: Colors.white,
+            ),
+            onPressed: decreaseFontSize,
+            tooltip: 'Decrease font size',
+          ),
+          GestureDetector(
+            onTap: () {
+              Get.bottomSheet(
+                colorBottomSheet(),
+                isScrollControlled: true,
+                persistent: false,
+                enableDrag: false,
+              );
+            },
+            child: const Icon(
+              Icons.color_lens_rounded,
+              color: Colors.white,
+            ),
+          ),
+          IconButton(
+            icon: const Icon(
+              Icons.format_align_left,
+              color: Colors.white,
+            ),
+            onPressed: alignLeft,
+            tooltip: 'Align left',
+          ),
+          IconButton(
+            icon: const Icon(
+              Icons.format_align_center,
+              color: Colors.white,
+            ),
+            onPressed: alignCenter,
+            tooltip: 'Align Center',
+          ),
+          IconButton(
+            icon: const Icon(
+              Icons.format_align_right,
+              color: Colors.white,
+            ),
+            onPressed: alignRight,
+            tooltip: 'Align Right',
+          ),
+          IconButton(
+            icon: const Icon(
+              Icons.format_bold,
+              color: Colors.white,
+            ),
+            onPressed: boldText,
+            tooltip: 'Bold',
+          ),
+          IconButton(
+            icon: const Icon(
+              Icons.format_italic,
+              color: Colors.white,
+            ),
+            onPressed: italicText,
+            tooltip: 'Italic',
+          ),
+          IconButton(
+            icon: const Icon(
+              Icons.space_bar,
+              color: Colors.white,
+            ),
+            onPressed: addLinesToText,
+            tooltip: 'Add New Line',
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget imageOptions() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        CircularIconButton(
+          icon: Icons.aspect_ratio,
+          onPressed: _aspectRatios,
+        ),
+        CircularIconButton(
+          icon: Icons.center_focus_strong_rounded,
+          onPressed: () {
+            controller.rotation = CropRotation.up;
+            controller.crop = const Rect.fromLTRB(0.1, 0.1, 0.9, 0.9);
+            controller.aspectRatio = 1.0;
+          },
+        ),
+        CircularIconButton(
+          icon: Icons.rotate_left,
+          onPressed: _rotateLeft,
+        ),
+        CircularIconButton(
+          icon: Icons.rotate_right,
+          onPressed: _rotateRight,
+        ),
+        const Spacer(),
+        CircleAvatar(
+          backgroundColor: AppColors.primary,
+          child: IconButton(
+            onPressed: () async {
+              await controller.croppedImage();
+              setState(() {});
+            },
+            icon: const Icon(Icons.check),
+          ),
+        ),
+        SizedBox(width: 10.w),
+      ],
+    );
+  }
+
+  Future<void> _aspectRatios() async {
+    final value = await showDialog<double>(
+      context: context,
+      builder: (context) {
+        return SimpleDialog(
+          title: const Text('Select aspect ratio'),
+          children: [
+            // special case: no aspect ratio
+            SimpleDialogOption(
+              onPressed: () => Navigator.pop(context, -1.0),
+              child: const Text('free'),
+            ),
+            SimpleDialogOption(
+              onPressed: () => Navigator.pop(context, 1.0),
+              child: const Text('square'),
+            ),
+            SimpleDialogOption(
+              onPressed: () => Navigator.pop(context, 2.0),
+              child: const Text('2:1'),
+            ),
+            SimpleDialogOption(
+              onPressed: () => Navigator.pop(context, 1 / 2),
+              child: const Text('1:2'),
+            ),
+            SimpleDialogOption(
+              onPressed: () => Navigator.pop(context, 4.0 / 3.0),
+              child: const Text('4:3'),
+            ),
+            SimpleDialogOption(
+              onPressed: () => Navigator.pop(context, 16.0 / 9.0),
+              child: const Text('16:9'),
+            ),
+          ],
+        );
+      },
+    );
+    if (value != null) {
+      controller.aspectRatio = value == -1 ? null : value;
+      controller.crop = const Rect.fromLTRB(0.1, 0.1, 0.9, 0.9);
+    }
+  }
+
+  Future<void> _rotateLeft() async => controller.rotateLeft();
+  Future<void> _rotateRight() async => controller.rotateRight();
 }

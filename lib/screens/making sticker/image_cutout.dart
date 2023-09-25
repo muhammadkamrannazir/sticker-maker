@@ -201,4 +201,6 @@ class _ImageCutOutPageState extends State<ImageCutOutPage> {
 
   Future<void> _rotateLeft() async => controller.rotateLeft();
   Future<void> _rotateRight() async => controller.rotateRight();
+
+
 }

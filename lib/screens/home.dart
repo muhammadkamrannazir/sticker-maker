@@ -61,7 +61,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<dynamic> Imagepickerchoicedialog(context) async {
-    // File? imagefile;
+    File? imagefile;
     return showCupertinoModalPopup(
       context: context,
       builder: (context) {
@@ -78,11 +78,11 @@ class _HomePageState extends State<HomePage> {
                     onPressed: () async {
                       XFile? photo =
                           await picker.pickImage(source: ImageSource.gallery);
-                      // if (photo != null) {
-                      //   imagefile = File(photo.path);
-                      //   setState(() {});
-                      // }
-                      Get.to(EditImageScreen(selectedImage: photo!.path));
+                      if (photo != null) {
+                        imagefile = File(photo.path);
+                        setState(() {});
+                      }
+                      Get.to(EditImageScreen(selectedImage: imagefile!));
                       // Get.to(ImageCutOutPage(onPickImage: imagefile!));
                     },
                   ),
@@ -99,11 +99,11 @@ class _HomePageState extends State<HomePage> {
                     onPressed: () async {
                       XFile? photo =
                           await picker.pickImage(source: ImageSource.camera);
-                      // if (photo != null) {
-                      //   imagefile = File(photo.path);
-                      //   setState(() {});
-                      // }
-                      Get.to(EditImageScreen(selectedImage: photo!.path));
+                      if (photo != null) {
+                        imagefile = File(photo.path);
+                        setState(() {});
+                      }
+                      Get.to(EditImageScreen(selectedImage: imagefile!));
                       // Get.to(ImageCutOutPage(onPickImage: imagefile!));
                     },
                   ),
