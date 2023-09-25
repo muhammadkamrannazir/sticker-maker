@@ -23,6 +23,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: CustomAppBar(
         centerTitle: true,
+        backgroundColor: AppColors.grey.shade900,
         child: CustomText(
           'Sticker Maker',
           fontWeight: FontWeight.bold,
