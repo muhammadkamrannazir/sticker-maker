@@ -9,6 +9,7 @@ import 'package:sticker_maker/widgets/appbar.dart';
 
 import '../Image Editing/screens/edit_image_screen.dart';
 import '../widgets/custom_text.dart';
+import '../widgets/image_picker_choice.dart';
 import 'making sticker/image_cutout.dart';
 
 class HomePage extends StatefulWidget {
@@ -31,22 +32,24 @@ class _HomePageState extends State<HomePage> {
           fontStyle: FontStyle.italic,
         ),
       ),
-      backgroundColor: AppColors.black,
-      // appBar: const CustomAppBar(
-      //   backgroundColor: AppColors.black,
-      // ),
-      // body: Column(
-      //   mainAxisAlignment: MainAxisAlignment.center,
-      //   crossAxisAlignment: CrossAxisAlignment.center,
-      //   children: [
-      //     UserImagePicker(
-      //       onPickImage: (pickedImage) {
-      //         _selectedImage = pickedImage;
-      //       },
-      //     ),
-      //   ],
-      // ),
-
+      backgroundColor: AppColors.grey.shade900,
+      body: ListView.builder(
+        itemBuilder: (context, index) {
+          return Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12), color: Colors.black),
+            child:  Column(
+              children: [
+                Row(
+                  children: [
+                    CustomText('Personal'),
+                  ],
+                )
+              ],
+            ),
+          );
+        },
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           Imagepickerchoicedialog(context);
