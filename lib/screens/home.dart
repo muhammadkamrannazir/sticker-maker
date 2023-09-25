@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:sticker_maker/utils/colors.dart';
 import 'package:sticker_maker/widgets/appbar.dart';
 
+import '../Image Editing/screens/edit_image_screen.dart';
 import '../widgets/custom_text.dart';
 import 'making sticker/image_cutout.dart';
 
@@ -59,10 +60,8 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-
-
   Future<dynamic> Imagepickerchoicedialog(context) async {
-  File? imagefile;
+    // File? imagefile;
     return showCupertinoModalPopup(
       context: context,
       builder: (context) {
@@ -77,14 +76,14 @@ class _HomePageState extends State<HomePage> {
                     minSize: 60,
                     child: CustomText('Gallery'),
                     onPressed: () async {
-                      XFile? photo;
-                      photo =
+                      XFile? photo =
                           await picker.pickImage(source: ImageSource.gallery);
-                      if (photo != null) {
-                        imagefile = File(photo.path);
-                        setState(() {});
-                      }
-                      Get.to(ImageCutOutPage(onPickImage: imagefile!));
+                      // if (photo != null) {
+                      //   imagefile = File(photo.path);
+                      //   setState(() {});
+                      // }
+                      Get.to(EditImageScreen(selectedImage: photo!.path));
+                      // Get.to(ImageCutOutPage(onPickImage: imagefile!));
                     },
                   ),
                 ),
@@ -98,16 +97,15 @@ class _HomePageState extends State<HomePage> {
                     minSize: 60,
                     child: CustomText('Camera'),
                     onPressed: () async {
-                      XFile? photo;
-
-                      photo =
+                      XFile? photo =
                           await picker.pickImage(source: ImageSource.camera);
 
-                      if (photo != null) {
-                        imagefile = File(photo.path);
-                        setState(() {});
-                      }
-                      Get.to(ImageCutOutPage(onPickImage: imagefile!));
+                      // if (photo != null) {
+                      //   imagefile = File(photo.path);
+                      //   setState(() {});
+                      // }
+                      Get.to(EditImageScreen(selectedImage: photo!.path));
+                      // Get.to(ImageCutOutPage(onPickImage: imagefile!));
                     },
                   ),
                 ),

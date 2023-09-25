@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-
 import 'edit_image_screen.dart';
 
 class HomeScreen extends StatelessWidget {
