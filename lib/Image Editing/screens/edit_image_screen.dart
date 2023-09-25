@@ -107,15 +107,18 @@ class _EditImageScreenState extends EditImageViewModel {
                           Icons.text_decrease,
                           color: Colors.white,
                         ),
-                        onPressed: () {
-                          Get.bottomSheet(
-                            bottomSheet(),
-                          );
-                        },
+                        onPressed: decreaseFontSize,
                         tooltip: 'Decrease font size',
                       ),
                       GestureDetector(
-                        onTap: () => changeTextColor(Colors.black),
+                        onTap: () {
+                          Get.bottomSheet(
+                            bottomSheet(),
+                            isScrollControlled: true,
+                            persistent: false,
+                            enableDrag: false,
+                          );
+                        },
                         child: const CircleAvatar(
                           backgroundColor: Colors.black,
                         ),
@@ -240,17 +243,38 @@ class _EditImageScreenState extends EditImageViewModel {
           ),
         ),
       );
-  bottomSheet() {
+  Widget bottomSheet() {
     return Container(
-      color: Colors.white,
+      height: 200.h,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+      ),
       child: Column(
         children: [
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SizedBox(width: 20.w),
-              CustomText('Color'),
+              SizedBox(width: 40.w),
+              CustomText(
+                'Choose Color',
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+              ),
+              IconButton(
+                onPressed: () {
+                  Get.back();
+                },
+                icon: const Icon(Icons.close),
+              ),
             ],
           ),
+          Container(
+            color: AppColors.primary,
+            width: double.infinity,
+            height: 1,
+          ),
+          SizedBox(height: 10.h),
           Wrap(
             children: [
               Tooltip(
@@ -268,7 +292,11 @@ class _EditImageScreenState extends EditImageViewModel {
                 child: GestureDetector(
                     onTap: () => changeTextColor(Colors.white),
                     child: const CircleAvatar(
-                      backgroundColor: Colors.white,
+                      backgroundColor: Colors.grey,
+                      child: CircleAvatar(
+                        radius: 19.5,
+                        backgroundColor: Colors.white,
+                      ),
                     )),
               ),
               const SizedBox(width: 5),
