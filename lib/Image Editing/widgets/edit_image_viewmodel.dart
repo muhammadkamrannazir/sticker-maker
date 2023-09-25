@@ -22,6 +22,7 @@ abstract class EditImageViewModel extends State<EditImageScreen> {
     if (texts.isNotEmpty) {
       screenshotController.capture().then((Uint8List? image) {
         saveImage(image!);
+        Get.off(HomePage(image: image));
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Image saved to gallery.'),

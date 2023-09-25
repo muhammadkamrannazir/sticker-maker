@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
     return ScreenUtilInit(
       designSize: const Size(390, 844),
       minTextAdapt: true,
-      builder: (context, child) => const GetMaterialApp(
+      builder: (context, child) =>  GetMaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Sticker Maker',
         home: HomePage(),

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,7 +12,11 @@ import '../Image Editing/screens/edit_image_screen.dart';
 import '../widgets/custom_text.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  Uint8List? image;
+  HomePage({
+    this.image,
+    super.key,
+  });
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -33,7 +38,7 @@ class _HomePageState extends State<HomePage> {
       ),
       backgroundColor: AppColors.grey.shade900,
       body: ListView.builder(
-        itemCount: 2,
+        itemCount: 1,
         itemBuilder: (context, index) {
           return Container(
             decoration: BoxDecoration(
@@ -59,21 +64,26 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 5),
+                const SizedBox(height: 10),
                 CustomText(
                   'Name of Sticker Pack',
-                  color: Colors.grey.shade400,
+                  color: Colors.grey.shade500,
+                  fontSize: 12,
                 ),
                 const SizedBox(height: 5),
-                ListView.builder(
-                  itemCount: 3,
-                  itemBuilder: (c, i) {
-                    return Image.network(
-                      "https://th.bing.com/th/id/R.06a9e417f6d2f7ba437cfcb12fedcb5d?rik=ohqe6zrG9RR2lw&pid=ImgRaw&r=0",
-                      height: 60,
-                      width: 60,
-                    );
-                  },
+                SizedBox(
+                  height: 80,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: 3,
+                    itemBuilder: (c, i) {
+                      return Image.memory(
+                        widget.image!,
+                        height: 60,
+                        width: 60,
+                      );
+                    },
+                  ),
                 ),
               ],
             ),
@@ -92,6 +102,8 @@ class _HomePageState extends State<HomePage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
+
+  List stickersList = [];
 
   Future<dynamic> Imagepickerchoicedialog(context) async {
     File? imagefile;

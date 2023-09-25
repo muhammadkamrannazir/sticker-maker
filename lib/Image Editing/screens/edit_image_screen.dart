@@ -179,7 +179,6 @@ class _EditImageScreenState extends EditImageViewModel {
                           child: TextButton(
                             onPressed: () {
                               saveToGallery(context);
-                              Get.off(const HomePage());
                             },
                             child: CustomText('Yes'),
                           ),
