@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-  static var primary = Colors.purple;
+  static var primary = Colors.blue.shade600;
   static var secondary = Colors.blueGrey.shade400;
   static var bluegreyshade200 = Colors.blueGrey.shade200;
   static var transparent = Colors.transparent;

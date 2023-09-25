@@ -26,7 +26,7 @@ class _ToggleButtonGroupState extends State<ToggleButtonGroup> {
   Widget build(BuildContext context) {
     return Expanded(
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 25.w, vertical: 15.h),
+        padding: EdgeInsets.symmetric(horizontal: 25.w),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

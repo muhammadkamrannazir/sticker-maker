@@ -1,7 +1,11 @@
 import 'dart:io';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:screenshot/screenshot.dart';
-import 'package:sticker_maker/utils/colors.dart';
+import 'package:sticker_maker/widgets/custom_text.dart';
+import '../../utils/colors.dart';
 import '../../widgets/toggle_button.dart';
 import '../widgets/edit_image_viewmodel.dart';
 import '../widgets/image_text.dart';
@@ -19,6 +23,7 @@ class _EditImageScreenState extends EditImageViewModel {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey.shade900,
       appBar: _appBar,
       body: Column(
         children: [
@@ -28,7 +33,7 @@ class _EditImageScreenState extends EditImageViewModel {
                 controller: screenshotController,
                 child: SafeArea(
                   child: SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.3,
+                    height: MediaQuery.of(context).size.height * 0.6,
                     child: Stack(
                       children: [
                         _selectedImage,
@@ -82,24 +87,103 @@ class _EditImageScreenState extends EditImageViewModel {
               ),
             ),
           ),
-          Container(
-            color: AppColors.grey.shade900,
+          const Divider(color: Colors.white),
+          toggleButtonIndex == 0
+              ? SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: [
+                      _addnewTextFab,
+                      IconButton(
+                        icon: const Icon(
+                          Icons.text_increase,
+                          color: Colors.white,
+                        ),
+                        onPressed: increaseFontSize,
+                        tooltip: 'Increase font size',
+                      ),
+                      IconButton(
+                        icon: const Icon(
+                          Icons.text_decrease,
+                          color: Colors.white,
+                        ),
+                        onPressed: () {
+                          Get.bottomSheet(
+                            bottomSheet(),
+                          );
+                        },
+                        tooltip: 'Decrease font size',
+                      ),
+                      GestureDetector(
+                        onTap: () => changeTextColor(Colors.black),
+                        child: const CircleAvatar(
+                          backgroundColor: Colors.black,
+                        ),
+                      ),
+                      IconButton(
+                        icon: const Icon(
+                          Icons.format_align_left,
+                          color: Colors.white,
+                        ),
+                        onPressed: alignLeft,
+                        tooltip: 'Align left',
+                      ),
+                      IconButton(
+                        icon: const Icon(
+                          Icons.format_align_center,
+                          color: Colors.white,
+                        ),
+                        onPressed: alignCenter,
+                        tooltip: 'Align Center',
+                      ),
+                      IconButton(
+                        icon: const Icon(
+                          Icons.format_align_right,
+                          color: Colors.white,
+                        ),
+                        onPressed: alignRight,
+                        tooltip: 'Align Right',
+                      ),
+                      IconButton(
+                        icon: const Icon(
+                          Icons.format_bold,
+                          color: Colors.white,
+                        ),
+                        onPressed: boldText,
+                        tooltip: 'Bold',
+                      ),
+                      IconButton(
+                        icon: const Icon(
+                          Icons.format_italic,
+                          color: Colors.white,
+                        ),
+                        onPressed: italicText,
+                        tooltip: 'Italic',
+                      ),
+                      IconButton(
+                        icon: const Icon(
+                          Icons.space_bar,
+                          color: Colors.white,
+                        ),
+                        onPressed: addLinesToText,
+                        tooltip: 'Add New Line',
+                      ),
+                    ],
+                  ),
+                )
+              : const SizedBox(),
+          Divider(color: AppColors.primary),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 5),
             child: Row(
               children: [
                 ToggleButtonGroup(
                   buttonIcons: const [
-                    Icons.crop_square_outlined,
+                    CupertinoIcons.textformat,
                     Icons.circle_outlined,
                     Icons.ads_click_rounded,
                     Icons.select_all_rounded,
                   ],
-                  // buttonTexts: const [
-                  //   'Square',
-                  //   'Circle',
-                  //   'Free Hand',
-                  //   'Select All',
-                  // ],
-                  // buttonTitles: buttonTitlesList,
                   onButtonSelected: (value) {
                     toggleButtonIndex = value;
                     setState(() {});
@@ -126,7 +210,7 @@ class _EditImageScreenState extends EditImageViewModel {
         ),
       );
 
-  Widget get _addnewTextFab => FloatingActionButton(
+  Widget get _addnewTextFab => FloatingActionButton.small(
         onPressed: () => addNewDialog(context),
         backgroundColor: Colors.white,
         tooltip: 'Add New Text',
@@ -144,7 +228,6 @@ class _EditImageScreenState extends EditImageViewModel {
           child: ListView(
             scrollDirection: Axis.horizontal,
             children: [
-              _addnewTextFab,
               IconButton(
                 icon: const Icon(
                   Icons.save,
@@ -153,81 +236,33 @@ class _EditImageScreenState extends EditImageViewModel {
                 onPressed: () => saveToGallery(context),
                 tooltip: 'Save Image',
               ),
-              IconButton(
-                icon: const Icon(
-                  Icons.text_increase,
-                  color: Colors.black,
-                ),
-                onPressed: increaseFontSize,
-                tooltip: 'Increase font size',
-              ),
-              IconButton(
-                icon: const Icon(
-                  Icons.text_decrease,
-                  color: Colors.black,
-                ),
-                onPressed: decreaseFontSize,
-                tooltip: 'Decrease font size',
-              ),
-              IconButton(
-                icon: const Icon(
-                  Icons.format_align_left,
-                  color: Colors.black,
-                ),
-                onPressed: alignLeft,
-                tooltip: 'Align left',
-              ),
-              IconButton(
-                icon: const Icon(
-                  Icons.format_align_center,
-                  color: Colors.black,
-                ),
-                onPressed: alignCenter,
-                tooltip: 'Align Center',
-              ),
-              IconButton(
-                icon: const Icon(
-                  Icons.format_align_right,
-                  color: Colors.black,
-                ),
-                onPressed: alignRight,
-                tooltip: 'Align Right',
-              ),
-              IconButton(
-                icon: const Icon(
-                  Icons.format_bold,
-                  color: Colors.black,
-                ),
-                onPressed: boldText,
-                tooltip: 'Bold',
-              ),
-              IconButton(
-                icon: const Icon(
-                  Icons.format_italic,
-                  color: Colors.black,
-                ),
-                onPressed: italicText,
-                tooltip: 'Italic',
-              ),
-              IconButton(
-                icon: const Icon(
-                  Icons.space_bar,
-                  color: Colors.black,
-                ),
-                onPressed: addLinesToText,
-                tooltip: 'Add New Line',
-              ),
+            ],
+          ),
+        ),
+      );
+  bottomSheet() {
+    return Container(
+      color: Colors.white,
+      child: Column(
+        children: [
+          Row(
+            children: [
+              SizedBox(width: 20.w),
+              CustomText('Color'),
+            ],
+          ),
+          Wrap(
+            children: [
               Tooltip(
                 message: 'Red',
                 child: GestureDetector(
-                    onTap: () => changeTextColor(Colors.red),
-                    child: const CircleAvatar(
-                      backgroundColor: Colors.red,
-                    )),
+                  onTap: () => changeTextColor(Colors.red),
+                  child: const CircleAvatar(
+                    backgroundColor: Colors.red,
+                  ),
+                ),
               ),
-              const SizedBox(
-                width: 5,
-              ),
+              const SizedBox(width: 5),
               Tooltip(
                 message: 'White',
                 child: GestureDetector(
@@ -236,9 +271,7 @@ class _EditImageScreenState extends EditImageViewModel {
                       backgroundColor: Colors.white,
                     )),
               ),
-              const SizedBox(
-                width: 5,
-              ),
+              const SizedBox(width: 5),
               Tooltip(
                 message: 'Black',
                 child: GestureDetector(
@@ -247,9 +280,7 @@ class _EditImageScreenState extends EditImageViewModel {
                       backgroundColor: Colors.black,
                     )),
               ),
-              const SizedBox(
-                width: 5,
-              ),
+              const SizedBox(width: 5),
               Tooltip(
                 message: 'Blue',
                 child: GestureDetector(
@@ -258,9 +289,7 @@ class _EditImageScreenState extends EditImageViewModel {
                       backgroundColor: Colors.blue,
                     )),
               ),
-              const SizedBox(
-                width: 5,
-              ),
+              const SizedBox(width: 5),
               Tooltip(
                 message: 'Yellow',
                 child: GestureDetector(
@@ -269,9 +298,7 @@ class _EditImageScreenState extends EditImageViewModel {
                       backgroundColor: Colors.yellow,
                     )),
               ),
-              const SizedBox(
-                width: 5,
-              ),
+              const SizedBox(width: 5),
               Tooltip(
                 message: 'Green',
                 child: GestureDetector(
@@ -280,9 +307,7 @@ class _EditImageScreenState extends EditImageViewModel {
                       backgroundColor: Colors.green,
                     )),
               ),
-              const SizedBox(
-                width: 5,
-              ),
+              const SizedBox(width: 5),
               Tooltip(
                 message: 'Orange',
                 child: GestureDetector(
@@ -291,9 +316,7 @@ class _EditImageScreenState extends EditImageViewModel {
                       backgroundColor: Colors.orange,
                     )),
               ),
-              const SizedBox(
-                width: 5,
-              ),
+              const SizedBox(width: 5),
               Tooltip(
                 message: 'Pink',
                 child: GestureDetector(
@@ -302,11 +325,11 @@ class _EditImageScreenState extends EditImageViewModel {
                       backgroundColor: Colors.pink,
                     )),
               ),
-              const SizedBox(
-                width: 5,
-              ),
+              const SizedBox(width: 5),
             ],
           ),
-        ),
-      );
+        ],
+      ),
+    );
+  }
 }
