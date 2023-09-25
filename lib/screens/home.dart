@@ -9,8 +9,6 @@ import 'package:sticker_maker/widgets/appbar.dart';
 
 import '../Image Editing/screens/edit_image_screen.dart';
 import '../widgets/custom_text.dart';
-import '../widgets/image_picker_choice.dart';
-import 'making sticker/image_cutout.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -34,17 +32,48 @@ class _HomePageState extends State<HomePage> {
       ),
       backgroundColor: AppColors.grey.shade900,
       body: ListView.builder(
+        itemCount: 2,
         itemBuilder: (context, index) {
           return Container(
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12), color: Colors.black),
-            child:  Column(
+              borderRadius: BorderRadius.circular(12),
+              color: Colors.black,
+            ),
+            margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    CustomText('Personal'),
+                    CustomText(
+                      'Personal',
+                      fontSize: 14,
+                    ),
+                    CustomText(
+                      'More',
+                      color: Colors.grey.shade700,
+                      fontSize: 12,
+                    ),
                   ],
-                )
+                ),
+                const SizedBox(height: 5),
+                CustomText(
+                  'Name of Sticker Pack',
+                  color: Colors.grey.shade400,
+                ),
+                const SizedBox(height: 5),
+                ListView.builder(
+                  itemCount: 3,
+                  itemBuilder: (c, i) {
+                    return Image.network(
+                      "https://th.bing.com/th/id/R.06a9e417f6d2f7ba437cfcb12fedcb5d?rik=ohqe6zrG9RR2lw&pid=ImgRaw&r=0",
+                      height: 60,
+                      width: 60,
+                    );
+                  },
+                ),
               ],
             ),
           );
