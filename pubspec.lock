@@ -110,6 +110,22 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_drawing_board:
+    dependency: transitive
+    description:
+      name: flutter_drawing_board
+      sha256: a0724650892f182064ef4f834000b23393a91df53d678e48193010477568d38a
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.7"
+  flutter_hsvcolor_picker:
+    dependency: transitive
+    description:
+      name: flutter_hsvcolor_picker
+      sha256: ea5868dbb1c840ef502bbf60168b26e18eab13a3a2b07bfef0c59a64e7fedc2c
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.5.0"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -357,6 +373,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.9.1"
+  stack_board:
+    dependency: "direct main"
+    description:
+      name: stack_board
+      sha256: "9f17f02db2c52ea5b227ad3006ffe9ad1f0979edf1be79a23d455d9bd6440f89"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.2"
   stack_trace:
     dependency: transitive
     description:
