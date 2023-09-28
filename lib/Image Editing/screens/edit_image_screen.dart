@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:screenshot/screenshot.dart';
+import 'package:stack_board/stack_board.dart';
 import 'package:sticker_maker/widgets/custom_text.dart';
 import '../../utils/colors.dart';
 import '../../widgets/Custom_Button.dart';
@@ -22,6 +23,21 @@ class EditImageScreen extends StatefulWidget {
 }
 
 class _EditImageScreenState extends EditImageViewModel {
+  late StackBoardController _boardController;
+
+  @override
+  void initState() {
+    super.initState();
+    _boardController = StackBoardController();
+  }
+
+//
+  @override
+  void dispose() {
+    _boardController.dispose();
+    super.dispose();
+  }
+
   final controller = CropController(
     aspectRatio: 1,
     defaultCrop: const Rect.fromLTRB(0.1, 0.1, 0.9, 0.9),
@@ -34,69 +50,111 @@ class _EditImageScreenState extends EditImageViewModel {
       body: Column(
         children: [
           Expanded(
-            child: Center(
-              child: Screenshot(
-                controller: screenshotController,
-                child: SafeArea(
-                  child: SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.6,
-                    child: Stack(
-                      children: [
-                        _selectedImage,
-                        for (int i = 0; i < texts.length; i++)
-                          Positioned(
-                            left: texts[i].left,
-                            top: texts[i].top,
-                            child: GestureDetector(
-                              onLongPress: () {
-                                setState(() {
-                                  currentIndex = i;
-                                  removeText(context);
-                                });
-                              },
-                              onTap: () => setCurrentIndex(context, i),
-                              child: Draggable(
-                                feedback: ImageText(textInfo: texts[i]),
-                                child: ImageText(textInfo: texts[i]),
-                                onDragEnd: (drag) {
-                                  final renderBox =
-                                      context.findRenderObject() as RenderBox;
-                                  Offset off =
-                                      renderBox.globalToLocal(drag.offset);
-                                  setState(() {
-                                    texts[i].top = off.dy - 96;
-                                    texts[i].left = off.dx;
-                                  });
-                                },
+            child: Stack(
+              children: [
+                Center(
+                  child: Screenshot(
+                    controller: screenshotController,
+                    child: SafeArea(
+                      child: SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.6,
+                        child: Stack(
+                          children: [
+                            StackBoard(
+                              controller: _boardController,
+                              caseStyle: const CaseStyle(
+                                borderColor: Colors.grey,
+                                iconColor: Colors.white,
                               ),
+                              background:
+                                  const ColoredBox(color: Colors.transparent),
+                              customBuilder: (StackBoardItem t) {
+                                // if (t is CustomItem) {
+                                return ItemCase(
+                                  key: Key('StackBoardItem${t.id}'),
+                                  isCenter: true,
+                                  onDel: () async =>
+                                      _boardController.remove(t.id),
+                                  onTap: () =>
+                                      _boardController.moveItemToTop(t.id),
+                                  caseStyle: const CaseStyle(
+                                    borderColor: Colors.grey,
+                                    iconColor: Colors.white,
+                                  ),
+                                  child: Container(
+                                    width: 100,
+                                    height: 100,
+                                    // color: t.color,
+                                    alignment: Alignment.center,
+                                    child: const Text(
+                                      'Custom item',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ),
+                                );
+                                // }
+                                // return null;
+                              },
                             ),
-                          ),
 
-                        // creatorText.text.isNotEmpty
-                        //     ? Positioned(
-                        //         left: 0,
-                        //         bottom: 0,
-                        //         child: Text(
-                        //           creatorText.text,
-                        //           style: TextStyle(
-                        //               fontSize: 20,
-                        //               fontWeight: FontWeight.bold,
-                        //               color: Colors.black.withOpacity(
-                        //                 0.3,
-                        //               )),
-                        //         ),
-                        //       )
-                        //     : const SizedBox.shrink(),
-                      ],
+                            _selectedImage,
+                            for (int i = 0; i < texts.length; i++)
+                              Positioned(
+                                left: texts[i].left,
+                                top: texts[i].top,
+                                child: GestureDetector(
+                                  onLongPress: () {
+                                    setState(() {
+                                      currentIndex = i;
+                                      removeText(context);
+                                    });
+                                  },
+                                  onTap: () => setCurrentIndex(context, i),
+                                  child: Draggable(
+                                    feedback: ImageText(textInfo: texts[i]),
+                                    child: ImageText(textInfo: texts[i]),
+                                    onDragEnd: (drag) {
+                                      final renderBox = context
+                                          .findRenderObject() as RenderBox;
+                                      Offset off =
+                                          renderBox.globalToLocal(drag.offset);
+                                      setState(() {
+                                        texts[i].top = off.dy - 96;
+                                        texts[i].left = off.dx;
+                                      });
+                                    },
+                                  ),
+                                ),
+                              ),
+
+                            // creatorText.text.isNotEmpty
+                            //     ? Positioned(
+                            //         left: 0,
+                            //         bottom: 0,
+                            //         child: Text(
+                            //           creatorText.text,
+                            //           style: TextStyle(
+                            //               fontSize: 20,
+                            //               fontWeight: FontWeight.bold,
+                            //               color: Colors.black.withOpacity(
+                            //                 0.3,
+                            //               )),
+                            //         ),
+                            //       )
+                            //     : const SizedBox.shrink(),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
+              ],
             ),
           ),
           const Divider(color: Colors.white),
           toggleButtonIndex == 0 ? imageOptions() : const SizedBox(),
           toggleButtonIndex == 1 ? textOptions() : const SizedBox(),
+          toggleButtonIndex == 2 ? addNewOptions() : const SizedBox(),
           Divider(color: AppColors.primary),
           Padding(
             padding: const EdgeInsets.only(bottom: 5),
@@ -151,53 +209,48 @@ class _EditImageScreenState extends EditImageViewModel {
         backgroundColor: Colors.grey.shade900,
         elevation: 0,
         automaticallyImplyLeading: false,
-        title: SizedBox(
-          height: 40,
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            children: [
-              IconButton(
-                icon: const Icon(Icons.save),
-                onPressed: () {
-                  Get.dialog(
-                    CupertinoAlertDialog(
-                      content: CustomText(
-                        'Are you want to save the edited image?',
-                        color: Colors.black,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.save),
+            onPressed: () {
+              Get.dialog(
+                CupertinoAlertDialog(
+                  content: CustomText(
+                    'Are you want to save the edited image?',
+                    color: Colors.black,
+                  ),
+                  actions: [
+                    Container(
+                      color: Colors.grey,
+                      child: TextButton(
+                        onPressed: () {
+                          Get.back();
+                        },
+                        child: CustomText(
+                          'No',
+                          color: Colors.black,
+                        ),
                       ),
-                      actions: [
-                        Container(
-                          color: Colors.grey,
-                          child: TextButton(
-                            onPressed: () {
-                              Get.back();
-                            },
-                            child: CustomText(
-                              'No',
-                              color: Colors.black,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          color: Colors.blue,
-                          child: TextButton(
-                            onPressed: saveToGallery(context),
-                            child: CustomText(
-                              'Yes',
-                              color: Colors.black,
-                            ),
-                          ),
-                        ),
-                      ],
                     ),
-                  );
-                },
-                tooltip: 'Save Image',
-              ),
-            ],
+                    Container(
+                      color: Colors.blue,
+                      child: TextButton(
+                        onPressed: saveToGallery(context),
+                        child: CustomText(
+                          'Yes',
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+            tooltip: 'Save Image',
           ),
-        ),
+        ],
       );
+
   Widget colorBottomSheet() {
     return Container(
       height: 200.h,
@@ -448,6 +501,58 @@ class _EditImageScreenState extends EditImageViewModel {
             ),
             onPressed: addLinesToText,
             tooltip: 'Add New Line',
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget addNewOptions() {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: [
+          FloatingActionButton(
+            onPressed: () {
+              _boardController.add(
+                const AdaptiveText(
+                  'New Text',
+                  tapToEdit: true,
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, color: Colors.white),
+                ),
+              );
+            },
+            child: const Icon(Icons.border_color),
+          ),
+          FloatingActionButton(
+            onPressed: () {
+              _boardController.add(
+                StackBoardItem(
+                  child: Image.network(
+                    'https://avatars.githubusercontent.com/u/47586449?s=200&v=4',
+                  ),
+                  onDel: () async {
+                    return true;
+                  },
+                ),
+              );
+            },
+            child: const Icon(Icons.image),
+          ),
+          FloatingActionButton(
+            onPressed: () {
+              _boardController.add(
+                const StackDrawing(
+                  caseStyle: CaseStyle(
+                    borderColor: Colors.grey,
+                    iconColor: Colors.white,
+                    boxAspectRatio: 1,
+                  ),
+                ),
+              );
+            },
+            child: const Icon(Icons.color_lens),
           ),
         ],
       ),
