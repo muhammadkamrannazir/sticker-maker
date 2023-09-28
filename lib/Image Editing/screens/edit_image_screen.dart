@@ -60,43 +60,6 @@ class _EditImageScreenState extends EditImageViewModel {
                         height: MediaQuery.of(context).size.height * 0.6,
                         child: Stack(
                           children: [
-                            StackBoard(
-                              controller: _boardController,
-                              caseStyle: const CaseStyle(
-                                borderColor: Colors.grey,
-                                iconColor: Colors.white,
-                              ),
-                              background:
-                                  const ColoredBox(color: Colors.transparent),
-                              customBuilder: (StackBoardItem t) {
-                                // if (t is CustomItem) {
-                                return ItemCase(
-                                  key: Key('StackBoardItem${t.id}'),
-                                  isCenter: true,
-                                  onDel: () async =>
-                                      _boardController.remove(t.id),
-                                  onTap: () =>
-                                      _boardController.moveItemToTop(t.id),
-                                  caseStyle: const CaseStyle(
-                                    borderColor: Colors.grey,
-                                    iconColor: Colors.white,
-                                  ),
-                                  child: Container(
-                                    width: 100,
-                                    height: 100,
-                                    // color: t.color,
-                                    alignment: Alignment.center,
-                                    child: const Text(
-                                      'Custom item',
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                  ),
-                                );
-                                // }
-                                // return null;
-                              },
-                            ),
-
                             _selectedImage,
                             for (int i = 0; i < texts.length; i++)
                               Positioned(
@@ -147,6 +110,39 @@ class _EditImageScreenState extends EditImageViewModel {
                       ),
                     ),
                   ),
+                ),
+                StackBoard(
+                  controller: _boardController,
+                  caseStyle: const CaseStyle(
+                    borderColor: Colors.grey,
+                    iconColor: Colors.white,
+                  ),
+                  background: const ColoredBox(color: Colors.transparent),
+                  customBuilder: (StackBoardItem t) {
+                    // if (t is CustomItem) {
+                    return ItemCase(
+                      key: Key('StackBoardItem${t.id}'),
+                      isCenter: true,
+                      onDel: () async => _boardController.remove(t.id),
+                      onTap: () => _boardController.moveItemToTop(t.id),
+                      caseStyle: const CaseStyle(
+                        borderColor: Colors.grey,
+                        iconColor: Colors.white,
+                      ),
+                      child: Container(
+                        width: 100,
+                        height: 100,
+                        // color: t.color,
+                        alignment: Alignment.center,
+                        child: const Text(
+                          'Custom item',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    );
+                    // }
+                    // return null;
+                  },
                 ),
               ],
             ),
@@ -518,8 +514,7 @@ class _EditImageScreenState extends EditImageViewModel {
                 const AdaptiveText(
                   'New Text',
                   tapToEdit: true,
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold, color: Colors.white),
+                  style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
                 ),
               );
             },

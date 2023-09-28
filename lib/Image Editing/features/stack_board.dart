@@ -63,7 +63,7 @@ class _StackBoardClassState extends State<StackBoardClass> {
         elevation: 0,
       ),
       body: Stack(
-        children: [ 
+        children: [
           Container(
             width: 100,
             height: 100,
@@ -112,14 +112,12 @@ class _StackBoardClassState extends State<StackBoardClass> {
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Flexible(
+          const Flexible(
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: <Widget>[
-                  const SizedBox(width: 25),
-                
-             
+                  SizedBox(width: 25),
                 ],
               ),
             ),
