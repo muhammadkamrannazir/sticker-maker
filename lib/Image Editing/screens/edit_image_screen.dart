@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:stack_board/stack_board.dart';
+import 'package:sticker_maker/screens/home.dart';
 import 'package:sticker_maker/widgets/custom_text.dart';
 import '../../utils/colors.dart';
 import '../../widgets/Custom_Button.dart';
@@ -52,6 +53,39 @@ class _EditImageScreenState extends EditImageViewModel {
           Expanded(
             child: Stack(
               children: [
+                StackBoard(
+                  controller: _boardController,
+                  caseStyle: const CaseStyle(
+                    borderColor: Colors.grey,
+                    iconColor: Colors.white,
+                  ),
+                  background: const ColoredBox(color: Colors.transparent),
+                  customBuilder: (StackBoardItem t) {
+                    // if (t is CustomItem) {
+                    return ItemCase(
+                      key: Key('StackBoardItem${t.id}'),
+                      isCenter: true,
+                      onDel: () async => _boardController.remove(t.id),
+                      onTap: () => _boardController.moveItemToTop(t.id),
+                      caseStyle: const CaseStyle(
+                        borderColor: Colors.grey,
+                        iconColor: Colors.white,
+                      ),
+                      child: Container(
+                        width: 100,
+                        height: 100,
+                        // color: t.color,
+                        alignment: Alignment.center,
+                        child: const Text(
+                          'Custom item',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    );
+                    // }
+                    // return null;
+                  },
+                ),
                 Center(
                   child: Screenshot(
                     controller: screenshotController,
@@ -111,39 +145,6 @@ class _EditImageScreenState extends EditImageViewModel {
                     ),
                   ),
                 ),
-                StackBoard(
-                  controller: _boardController,
-                  caseStyle: const CaseStyle(
-                    borderColor: Colors.grey,
-                    iconColor: Colors.white,
-                  ),
-                  background: const ColoredBox(color: Colors.transparent),
-                  customBuilder: (StackBoardItem t) {
-                    // if (t is CustomItem) {
-                    return ItemCase(
-                      key: Key('StackBoardItem${t.id}'),
-                      isCenter: true,
-                      onDel: () async => _boardController.remove(t.id),
-                      onTap: () => _boardController.moveItemToTop(t.id),
-                      caseStyle: const CaseStyle(
-                        borderColor: Colors.grey,
-                        iconColor: Colors.white,
-                      ),
-                      child: Container(
-                        width: 100,
-                        height: 100,
-                        // color: t.color,
-                        alignment: Alignment.center,
-                        child: const Text(
-                          'Custom item',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    );
-                    // }
-                    // return null;
-                  },
-                ),
               ],
             ),
           ),
@@ -160,7 +161,7 @@ class _EditImageScreenState extends EditImageViewModel {
                   buttonIcons: const [
                     Icons.crop,
                     CupertinoIcons.textformat,
-                    Icons.ads_click_rounded,
+                    CupertinoIcons.add,
                     Icons.select_all_rounded,
                   ],
                   onButtonSelected: (value) {
@@ -188,16 +189,6 @@ class _EditImageScreenState extends EditImageViewModel {
             width: MediaQuery.of(context).size.width,
           ),
           alwaysMove: true,
-        ),
-      );
-
-  Widget get _addnewTextFab => FloatingActionButton.small(
-        onPressed: () => addNewDialog(context),
-        backgroundColor: Colors.white,
-        tooltip: 'Add New Text',
-        child: const Icon(
-          Icons.add,
-          color: Colors.black,
         ),
       );
 
@@ -244,6 +235,12 @@ class _EditImageScreenState extends EditImageViewModel {
             },
             tooltip: 'Save Image',
           ),
+          IconButton(
+            icon: const Icon(Icons.close),
+            onPressed: () {
+              Get.off(HomePage());
+            },
+          )
         ],
       );
 
@@ -419,7 +416,6 @@ class _EditImageScreenState extends EditImageViewModel {
       scrollDirection: Axis.horizontal,
       child: Row(
         children: [
-          
           IconButton(
             icon: const Icon(
               Icons.text_increase,
@@ -504,11 +500,22 @@ class _EditImageScreenState extends EditImageViewModel {
   }
 
   Widget addNewOptions() {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 50.w),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          FloatingActionButton(
+          FloatingActionButton.small(
+            onPressed: () => addNewDialog(context),
+            backgroundColor: Colors.white,
+            tooltip: 'Add New Text',
+            child: const Icon(
+              Icons.text_fields_rounded,
+              color: Colors.black,
+            ),
+          ),
+          FloatingActionButton.small(
+            backgroundColor: Colors.white,
             onPressed: () {
               _boardController.add(
                 const AdaptiveText(
@@ -519,9 +526,13 @@ class _EditImageScreenState extends EditImageViewModel {
                 ),
               );
             },
-            child: const Icon(Icons.border_color),
+            child: const Icon(
+              Icons.border_color,
+              color: Colors.black,
+            ),
           ),
-          FloatingActionButton(
+          FloatingActionButton.small(
+            backgroundColor: Colors.white,
             onPressed: () {
               _boardController.add(
                 StackBoardItem(
@@ -534,9 +545,13 @@ class _EditImageScreenState extends EditImageViewModel {
                 ),
               );
             },
-            child: const Icon(Icons.image),
+            child: const Icon(
+              Icons.image,
+              color: Colors.black,
+            ),
           ),
-          FloatingActionButton(
+          FloatingActionButton.small(
+            backgroundColor: Colors.white,
             onPressed: () {
               _boardController.add(
                 const StackDrawing(
@@ -548,7 +563,10 @@ class _EditImageScreenState extends EditImageViewModel {
                 ),
               );
             },
-            child: const Icon(Icons.color_lens),
+            child: const Icon(
+              Icons.color_lens,
+              color: Colors.black,
+            ),
           ),
         ],
       ),
@@ -580,14 +598,15 @@ class _EditImageScreenState extends EditImageViewModel {
           onPressed: _rotateRight,
         ),
         const Spacer(),
-        CircleAvatar(
+        FloatingActionButton.small(
           backgroundColor: AppColors.white,
-          child: IconButton(
-            onPressed: () async {
-              await controller.croppedImage();
-              setState(() {});
-            },
-            icon: const Icon(Icons.check),
+          onPressed: () async {
+            await controller.croppedImage();
+            setState(() {});
+          },
+          child: const Icon(
+            Icons.check,
+            color: Colors.black,
           ),
         ),
         SizedBox(width: 10.w),
