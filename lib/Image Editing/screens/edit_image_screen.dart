@@ -419,7 +419,7 @@ class _EditImageScreenState extends EditImageViewModel {
       scrollDirection: Axis.horizontal,
       child: Row(
         children: [
-          _addnewTextFab,
+          
           IconButton(
             icon: const Icon(
               Icons.text_increase,
@@ -581,7 +581,7 @@ class _EditImageScreenState extends EditImageViewModel {
         ),
         const Spacer(),
         CircleAvatar(
-          backgroundColor: AppColors.primary,
+          backgroundColor: AppColors.white,
           child: IconButton(
             onPressed: () async {
               await controller.croppedImage();

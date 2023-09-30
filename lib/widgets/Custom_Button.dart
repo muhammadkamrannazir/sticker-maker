@@ -79,7 +79,7 @@ class CircularIconButton extends StatelessWidget {
   Widget build(BuildContext context) {
     bool isLoading = false;
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 10.w),
+      padding: EdgeInsets.symmetric( horizontal: 10.w),
       child: GestureDetector(
         onTap: onPressed,
         child: CircleAvatar(
