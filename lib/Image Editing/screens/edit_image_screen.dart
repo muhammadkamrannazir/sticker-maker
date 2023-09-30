@@ -148,13 +148,9 @@ class _EditImageScreenState extends EditImageViewModel {
             ),
           ),
           const Divider(color: Colors.white),
-          SizedBox(
-            child: 
           toggleButtonIndex == 0 ? imageOptions() : const SizedBox(),
           toggleButtonIndex == 1 ? textOptions() : const SizedBox(),
-          toggleButtonIndex == 2 ? addNewOptions() : const SizedBox(),,
-
-          ),
+          toggleButtonIndex == 2 ? addNewOptions() : const SizedBox(),
           Divider(color: AppColors.primary),
           Padding(
             padding: const EdgeInsets.only(bottom: 5),
@@ -518,7 +514,8 @@ class _EditImageScreenState extends EditImageViewModel {
                 const AdaptiveText(
                   'New Text',
                   tapToEdit: true,
-                  style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, color: Colors.white),
                 ),
               );
             },
