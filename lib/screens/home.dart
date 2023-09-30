@@ -37,59 +37,59 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       backgroundColor: AppColors.grey.shade900,
-      // body: ListView.builder(
-      //   itemCount: 1,
-      //   itemBuilder: (context, index) {
-      //     return Container(
-      //       decoration: BoxDecoration(
-      //         borderRadius: BorderRadius.circular(12),
-      //         color: Colors.black,
-      //       ),
-      //       margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-      //       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-      //       child: Column(
-      //         crossAxisAlignment: CrossAxisAlignment.start,
-      //         children: [
-      //           Row(
-      //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //             children: [
-      //               CustomText(
-      //                 'Personal',
-      //                 fontSize: 14,
-      //               ),
-      //               CustomText(
-      //                 'More',
-      //                 color: Colors.grey.shade700,
-      //                 fontSize: 12,
-      //               ),
-      //             ],
-      //           ),
-      //           const SizedBox(height: 10),
-      //           CustomText(
-      //             'Name of Sticker Pack',
-      //             color: Colors.grey.shade500,
-      //             fontSize: 12,
-      //           ),
-      //           const SizedBox(height: 5),
-      //           SizedBox(
-      //             height: 80,
-      //             child: ListView.builder(
-      //               scrollDirection: Axis.horizontal,
-      //               itemCount: 3,
-      //               itemBuilder: (c, i) {
-      //                 return Image.memory(
-      //                   widget.image!,
-      //                   height: 60,
-      //                   width: 60,
-      //                 );
-      //               },
-      //             ),
-      //           ),
-      //         ],
-      //       ),
-      //     );
-      //   },
-      // ),
+      body: ListView.builder(
+        itemCount: 1,
+        itemBuilder: (context, index) {
+          return Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12),
+              color: Colors.black,
+            ),
+            margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CustomText(
+                      'Personal',
+                      fontSize: 14,
+                    ),
+                    CustomText(
+                      'More',
+                      color: Colors.grey.shade700,
+                      fontSize: 12,
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                CustomText(
+                  'Name of Sticker Pack',
+                  color: Colors.grey.shade500,
+                  fontSize: 12,
+                ),
+                const SizedBox(height: 5),
+                SizedBox(
+                  height: 80,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: 3,
+                    itemBuilder: (c, i) {
+                      return Image.memory(
+                        widget.image!,
+                        height: 60,
+                        width: 60,
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
 
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
