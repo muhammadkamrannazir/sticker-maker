@@ -46,6 +46,11 @@ class _EditImageScreenState extends EditImageViewModel {
     aspectRatio: 1,
     defaultCrop: const Rect.fromLTRB(0.1, 0.1, 0.9, 0.9),
   );
+
+  setCallBack() {
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -536,8 +541,7 @@ class _EditImageScreenState extends EditImageViewModel {
           ),
           FloatingActionButton.small(
             onPressed: () async {
-              Imagepickerchoicedialog(context);
-              setState(() {});
+              Imagepickerchoicedialog(context, callback: setCallBack);
               print(imagefile!);
             },
             child: const Icon(
@@ -635,7 +639,7 @@ class _EditImageScreenState extends EditImageViewModel {
   Future<void> _rotateLeft() async => controller.rotateLeft();
   Future<void> _rotateRight() async => controller.rotateRight();
 
-  Future<dynamic> Imagepickerchoicedialog(context) async {
+  Future<dynamic> Imagepickerchoicedialog(context, {callback}) async {
     return showCupertinoModalPopup(
       context: context,
       builder: (context) {
@@ -656,6 +660,7 @@ class _EditImageScreenState extends EditImageViewModel {
                         imagefile = File(photo.path);
                         setState(() {});
                       }
+                       setCallBack();
                     },
                   ),
                 ),
@@ -675,6 +680,7 @@ class _EditImageScreenState extends EditImageViewModel {
                         imagefile = File(photo.path);
                         setState(() {});
                       }
+                      setCallBack();
                     },
                   ),
                 ),

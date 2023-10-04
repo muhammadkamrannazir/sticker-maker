@@ -84,8 +84,8 @@ class _StackBoardClassState extends State<StackBoardClass> {
         customBuilder: (StackBoardItem t) {
           if (t is CustomItem) {
             return Container(
-              height: 400,
-              width: 250,
+              height: 200,
+              width: 200,
               color: Colors.red,
               child: Stack(
                 children: [

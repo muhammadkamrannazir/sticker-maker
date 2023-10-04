@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:sticker_maker/Image%20Editing/features/stack_board.dart';
 import 'package:sticker_maker/screens/home.dart';
 
 void main() {
