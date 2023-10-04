@@ -689,7 +689,7 @@ class _EditImageScreenState extends EditImageViewModel {
             const SizedBox(height: 2),
           ],
         );
-      },
-    );
-  }
+     },
+);
+}
 }
