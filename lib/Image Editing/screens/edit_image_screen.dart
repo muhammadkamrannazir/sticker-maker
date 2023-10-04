@@ -15,6 +15,9 @@ import '../../widgets/toggle_button.dart';
 import '../widgets/edit_image_viewmodel.dart';
 import '../widgets/image_text.dart';
 
+
+
+
 class EditImageScreen extends StatefulWidget {
   // final File selectedImage;
   const EditImageScreen({
@@ -72,57 +75,57 @@ class _EditImageScreenState extends EditImageViewModel {
                         iconColor: Colors.white,
                       ),
                       background: const ColoredBox(color: Colors.transparent),
-                      customBuilder: (StackBoardItem t) {
-                        // if (t is CustomItem) {
-                        return Container(
-                          width: 300,
-                          height: 600,
-                          color: Colors.white,
-                          // color: t.color,
-                          alignment: Alignment.center,
-                          child: Stack(
-                            children: [
-                              CropImage(
-                                controller: controller,
-                                image: Image.file(
-                                  imagefile!,
-                                  fit: BoxFit.fitWidth,
-                                  width: MediaQuery.of(context).size.width,
-                                ),
-                                alwaysMove: true,
-                              ),
-                              for (int i = 0; i < texts.length; i++)
-                                Positioned(
-                                  left: texts[i].left,
-                                  top: texts[i].top,
-                                  child: GestureDetector(
-                                    onLongPress: () {
-                                      setState(() {
-                                        currentIndex = i;
-                                        removeText(context);
-                                      });
-                                    },
-                                    onTap: () => setCurrentIndex(context, i),
-                                    child: Draggable(
-                                      feedback: ImageText(textInfo: texts[i]),
-                                      child: ImageText(textInfo: texts[i]),
-                                      onDragEnd: (drag) {
-                                        final renderBox = context
-                                            .findRenderObject() as RenderBox;
-                                        Offset off = renderBox
-                                            .globalToLocal(drag.offset);
-                                        setState(() {
-                                          texts[i].top = off.dy - 96;
-                                          texts[i].left = off.dx;
-                                        });
-                                      },
-                                    ),
-                                  ),
-                                ),
-                            ],
-                          ),
-                        );
-                      }
+                      // customBuilder: (StackBoardItem t) {
+                      //   // if (t is CustomItem) {
+                      //   return Container(
+                      //     width: 300,
+                      //     height: 600,
+                      //     color: Colors.white,
+                      //     // color: t.color,
+                      //     alignment: Alignment.center,
+                      //     child: Stack(
+                      //       children: [
+                      //         // CropImage(
+                      //         //   controller: controller,
+                      //         //   image: Image.file(
+                      //         //     imagefile!,
+                      //         //     fit: BoxFit.fitWidth,
+                      //         //     width: MediaQuery.of(context).size.width,
+                      //         //   ),
+                      //         //   alwaysMove: true,
+                      //         // ),
+                      //         // for (int i = 0; i < texts.length; i++)
+                      //         //   Positioned(
+                      //         //     left: texts[i].left,
+                      //         //     top: texts[i].top,
+                      //         //     child: GestureDetector(
+                      //         //       onLongPress: () {
+                      //         //         setState(() {
+                      //         //           currentIndex = i;
+                      //         //           removeText(context);
+                      //         //         });
+                      //         //       },
+                      //         //       onTap: () => setCurrentIndex(context, i),
+                      //         //       child: Draggable(
+                      //         //         feedback: ImageText(textInfo: texts[i]),
+                      //         //         child: ImageText(textInfo: texts[i]),
+                      //         //         onDragEnd: (drag) {
+                      //         //           final renderBox = context
+                      //         //               .findRenderObject() as RenderBox;
+                      //         //           Offset off = renderBox
+                      //         //               .globalToLocal(drag.offset);
+                      //         //           setState(() {
+                      //         //             texts[i].top = off.dy - 96;
+                      //         //             texts[i].left = off.dx;
+                      //         //           });
+                      //         //         },
+                      //         //       ),
+                      //         //     ),
+                      //         //   ),
+                      //       ],
+                      //     ),
+                      //   );
+                      // }
                       // return null;
                       // },
                       ),
@@ -541,8 +544,8 @@ class _EditImageScreenState extends EditImageViewModel {
           ),
           FloatingActionButton.small(
             onPressed: () async {
-              Imagepickerchoicedialog(context, callback: setCallBack);
-              print(imagefile!);
+              Imagepickerchoicedialog(context);
+
             },
             child: const Icon(
               CupertinoIcons.add,
@@ -639,7 +642,7 @@ class _EditImageScreenState extends EditImageViewModel {
   Future<void> _rotateLeft() async => controller.rotateLeft();
   Future<void> _rotateRight() async => controller.rotateRight();
 
-  Future<dynamic> Imagepickerchoicedialog(context, {callback}) async {
+  Future<dynamic> Imagepickerchoicedialog(context) async {
     return showCupertinoModalPopup(
       context: context,
       builder: (context) {
@@ -658,9 +661,12 @@ class _EditImageScreenState extends EditImageViewModel {
                           await picker.pickImage(source: ImageSource.gallery);
                       if (photo != null) {
                         imagefile = File(photo.path);
-                        setState(() {});
+                        _boardController.add(
+                            StackBoardItem(child: Image.file(File(imagefile!.path)))
+                        );
+                        setCallBack();
                       }
-                       setCallBack();
+
                     },
                   ),
                 ),
@@ -678,9 +684,13 @@ class _EditImageScreenState extends EditImageViewModel {
                           await picker.pickImage(source: ImageSource.camera);
                       if (photo != null) {
                         imagefile = File(photo.path);
-                        setState(() {});
+
+                        _boardController.add(
+                             StackBoardItem(child: Image.file(File(imagefile!.path)))
+                        );
+                        setCallBack();
                       }
-                      setCallBack();
+
                     },
                   ),
                 ),
