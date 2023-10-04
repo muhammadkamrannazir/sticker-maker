@@ -497,6 +497,7 @@ class _EditImageScreenState extends EditImageViewModel {
               color: Colors.black,
             ),
           ),
+          //
           FloatingActionButton.small(
             backgroundColor: Colors.white,
             onPressed: () {
