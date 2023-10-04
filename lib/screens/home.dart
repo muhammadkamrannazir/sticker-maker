@@ -1,10 +1,8 @@
-import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:sticker_maker/utils/colors.dart';
 import 'package:sticker_maker/widgets/appbar.dart';
 
@@ -38,7 +36,7 @@ class _HomePageState extends State<HomePage> {
       ),
       backgroundColor: AppColors.grey.shade900,
       body: ListView.builder(
-        itemCount: 1,
+        itemCount: 2,
         itemBuilder: (context, index) {
           return Container(
             decoration: BoxDecoration(
@@ -54,7 +52,7 @@ class _HomePageState extends State<HomePage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     CustomText(
-                      'Personal',
+                      'Personal Sticker',
                       fontSize: 14,
                     ),
                     CustomText(
@@ -71,30 +69,27 @@ class _HomePageState extends State<HomePage> {
                   fontSize: 12,
                 ),
                 const SizedBox(height: 5),
-                SizedBox(
+                const SizedBox(
                   height: 80,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: 3,
-                    itemBuilder: (c, i) {
-                      return Image.memory(
-                        widget.image!,
-                        height: 60,
-                        width: 60,
-                      );
-                    },
-                  ),
+                  // child: ListView.builder(
+                  //   scrollDirection: Axis.horizontal,
+                  //   itemCount: 3,
+                  //   itemBuilder: (c, i) {
+                  //     return Image.memory(
+                  //       widget.image!,
+                  //       height: 60,
+                  //       width: 60,
+                  //     );
+                  //   },
+                  // ),
                 ),
               ],
             ),
           );
         },
       ),
-
       floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          Imagepickerchoicedialog(context);
-        },
+        onPressed: () => Get.to(const EditImageScreen()),
         child: const Icon(
           CupertinoIcons.add,
         ),
@@ -105,61 +100,4 @@ class _HomePageState extends State<HomePage> {
   }
 
   List stickersList = [];
-
-  Future<dynamic> Imagepickerchoicedialog(context) async {
-    File? imagefile;
-    return showCupertinoModalPopup(
-      context: context,
-      builder: (context) {
-        final ImagePicker picker = ImagePicker();
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: CupertinoButton.filled(
-                    minSize: 60,
-                    child: CustomText('Gallery'),
-                    onPressed: () async {
-                      XFile? photo =
-                          await picker.pickImage(source: ImageSource.gallery);
-                      if (photo != null) {
-                        imagefile = File(photo.path);
-                        setState(() {});
-                      }
-                      Get.to(EditImageScreen(selectedImage: imagefile!));
-                      // Get.to(ImageCutOutPage(onPickImage: imagefile!));
-                    },
-                  ),
-                ),
-              ],
-            ),
-            Container(height: 1, color: Colors.black),
-            Row(
-              children: [
-                Expanded(
-                  child: CupertinoButton.filled(
-                    minSize: 60,
-                    child: CustomText('Camera'),
-                    onPressed: () async {
-                      XFile? photo =
-                          await picker.pickImage(source: ImageSource.camera);
-                      if (photo != null) {
-                        imagefile = File(photo.path);
-                        setState(() {});
-                      }
-                      Get.to(EditImageScreen(selectedImage: imagefile!));
-                      // Get.to(ImageCutOutPage(onPickImage: imagefile!));
-                    },
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 2),
-          ],
-        );
-      },
-    );
-  }
 }
