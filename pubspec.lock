@@ -232,14 +232,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_whatsapp_stickers:
-    dependency: "direct main"
-    description:
-      name: flutter_whatsapp_stickers
-      sha256: "36474459d19b85fb2b6c77b2f64644786be47f7a4172d97db153fa848f65a3af"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.1+5"
   get:
     dependency: "direct main"
     description:
