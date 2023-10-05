@@ -22,8 +22,15 @@ dependencies:
   undo: ^1.4.0
   image_gallery_saver: ^2.0.3
   permission_handler: ^8.3.0
-  screenshot: ^2.1.0
+  screenshot: ^1.2.3
   stack_board: ^0.1.2
+  stick_it: ^1.0.0+2
+  emoji_picker_flutter: ^1.6.1
+  animated_emoji: ^2.0.0
+  image_stickers: ^0.0.4
+  # lindi_sticker_widget: ^0.1.1
+  flutter_whatsapp_stickers: ^1.0.1+5
+  stickereditor: ^0.0.8
   
 
 dev_dependencies:
