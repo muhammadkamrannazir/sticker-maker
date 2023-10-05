@@ -30,7 +30,6 @@ dependencies:
   image_stickers: ^0.0.4
   # lindi_sticker_widget: ^0.1.1
   # flutter_whatsapp_stickers: ^1.0.1+5
-  stickereditor: ^0.0.8
   
 
 dev_dependencies:
