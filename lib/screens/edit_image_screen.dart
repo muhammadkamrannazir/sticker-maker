@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:crop_image/crop_image.dart';
+import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,12 +8,14 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:stack_board/stack_board.dart';
+import 'package:sticker_maker/features/emojis.dart';
 import 'package:sticker_maker/screens/home.dart';
 import 'package:sticker_maker/widgets/custom_text.dart';
 import '../utils/colors.dart';
 import '../widgets/Custom_Button.dart';
 import '../widgets/edit_image_viewmodel.dart';
 import '../widgets/toggle_button.dart';
+import 'package:flutter/foundation.dart' as foundation;
 
 class EditImageScreen extends StatefulWidget {
   // final File selectedImage;
@@ -61,99 +64,106 @@ class _EditImageScreenState extends EditImageViewModel {
             child: Screenshot(
               controller: screenshotController,
               child: SizedBox(
-                height: MediaQuery.of(context).size.height * 0.80,
-                child: Container(
-                  color: Colors.grey.shade100,
-                  child: StackBoard(
-                    controller: _boardController,
-                    caseStyle: const CaseStyle(
-                      borderColor: Colors.grey,
-                      iconColor: Colors.white,
-                    ),
-                    background: const ColoredBox(color: Colors.transparent),
+                height: MediaQuery.of(context).size.height * 0.30,
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    StackBoard(
+                      controller: _boardController,
+                      caseStyle: const CaseStyle(
+                        borderColor: Colors.grey,
+                        iconColor: Colors.white,
+                      ),
+                      background: const ColoredBox(color: Colors.transparent),
                       // customBuilder: (StackBoardItem t) {
-                    //   // if (t is CustomItem) {
-                    //   return Container(
-                    //     width: 300,
-                    //     height: 600,
-                    //     color: Colors.white,
-                    //     // color: t.color,
-                    //     alignment: Alignment.center,
-                    //     child: Stack(
-                    //       children: [
-                    //         // CropImage(
-                    //         //   controller: controller,
-                    //         //   image: Image.file(
-                    //         //     imagefile!,
-                    //         //     fit: BoxFit.fitWidth,
-                    //         //     width: MediaQuery.of(context).size.width,
-                    //         //   ),
-                    //         //   alwaysMove: true,
-                    //         // ),
-                    //         // for (int i = 0; i < texts.length; i++)
-                    //         //   Positioned(
-                    //         //     left: texts[i].left,
-                    //         //     top: texts[i].top,
-                    //         //     child: GestureDetector(
-                    //         //       onLongPress: () {
-                    //         //         setState(() {
-                    //         //           currentIndex = i;
-                    //         //           removeText(context);
-                    //         //         });
-                    //         //       },
-                    //         //       onTap: () => setCurrentIndex(context, i),
-                    //         //       child: Draggable(
-                    //         //         feedback: ImageText(textInfo: texts[i]),
-                    //         //         child: ImageText(textInfo: texts[i]),
-                    //         //         onDragEnd: (drag) {
-                    //         //           final renderBox = context
-                    //         //               .findRenderObject() as RenderBox;
-                    //         //           Offset off = renderBox
-                    //         //               .globalToLocal(drag.offset);
-                    //         //           setState(() {
-                    //         //             texts[i].top = off.dy - 96;
-                    //         //             texts[i].left = off.dx;
-                    //         //           });
-                    //         //         },
-                    //         //       ),
-                    //         //     ),
-                    //         //   ),
-                    //       ],
-                    //     ),
-                    //   );
-                    // }
-                    // return null;
-                    // },
-                 
-                  ),
+                      //   // if (t is CustomItem) {
+                      //   return Container(
+                      //     width: 300,
+                      //     height: 600,
+                      //     color: Colors.white,
+                      //     // color: t.color,
+                      //     alignment: Alignment.center,
+                      //     child: Stack(
+                      //       children: [
+                      //         // CropImage(
+                      //         //   controller: controller,
+                      //         //   image: Image.file(
+                      //         //     imagefile!,
+                      //         //     fit: BoxFit.fitWidth,
+                      //         //     width: MediaQuery.of(context).size.width,
+                      //         //   ),
+                      //         //   alwaysMove: true,
+                      //         // ),
+                      //         // for (int i = 0; i < texts.length; i++)
+                      //         //   Positioned(
+                      //         //     left: texts[i].left,
+                      //         //     top: texts[i].top,
+                      //         //     child: GestureDetector(
+                      //         //       onLongPress: () {
+                      //         //         setState(() {
+                      //         //           currentIndex = i;
+                      //         //           removeText(context);
+                      //         //         });
+                      //         //       },
+                      //         //       onTap: () => setCurrentIndex(context, i),
+                      //         //       child: Draggable(
+                      //         //         feedback: ImageText(textInfo: texts[i]),
+                      //         //         child: ImageText(textInfo: texts[i]),
+                      //         //         onDragEnd: (drag) {
+                      //         //           final renderBox = context
+                      //         //               .findRenderObject() as RenderBox;
+                      //         //           Offset off = renderBox
+                      //         //               .globalToLocal(drag.offset);
+                      //         //           setState(() {
+                      //         //             texts[i].top = off.dy - 96;
+                      //         //             texts[i].left = off.dx;
+                      //         //           });
+                      //         //         },
+                      //         //       ),
+                      //         //     ),
+                      //         //   ),
+                      //       ],
+                      //     ),
+                      //   );
+                      // }
+                      // return null;
+                      // },
+                    ),
+                    const CustomTextFieldTransparent(),
+                  ],
                 ),
               ),
             ),
           ),
-          const Divider(color: Colors.white),
-          toggleButtonIndex == 0 ? imageOptions() : const SizedBox(),
-          toggleButtonIndex == 1 ? textOptions() : const SizedBox(),
-          toggleButtonIndex == 2 ? addNewOptions() : const SizedBox(),
-          Divider(color: AppColors.primary),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 5),
-            child: Row(
-              children: [
-                ToggleButtonGroup(
-                  buttonIcons: const [
-                    Icons.crop,
-                    CupertinoIcons.textformat,
-                    CupertinoIcons.add,
-                    Icons.select_all_rounded,
+          Column(
+            children: [
+              const Divider(color: Colors.white),
+              toggleButtonIndex == 0 ? imageOptions() : const SizedBox(),
+              toggleButtonIndex == 1 ? textOptions() : const SizedBox(),
+              toggleButtonIndex == 2 ? addNewOptions() : const SizedBox(),
+              toggleButtonIndex == 3 ? const EmojisClass() : const SizedBox(),
+              Divider(color: AppColors.primary),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 5),
+                child: Row(
+                  children: [
+                    ToggleButtonGroup(
+                      buttonIcons: const [
+                        Icons.crop,
+                        CupertinoIcons.textformat,
+                        CupertinoIcons.add,
+                        Icons.emoji_emotions,
+                      ],
+                      onButtonSelected: (value) {
+                        toggleButtonIndex = value;
+                        setState(() {});
+                        print(toggleButtonIndex);
+                      },
+                    ),
                   ],
-                  onButtonSelected: (value) {
-                    toggleButtonIndex = value;
-                    setState(() {});
-                    print(toggleButtonIndex);
-                  },
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ],
       ),
@@ -388,7 +398,38 @@ class _EditImageScreenState extends EditImageViewModel {
       child: Row(
         children: [
           FloatingActionButton.small(
-            onPressed: () => addNewDialog(context),
+            backgroundColor: Colors.white,
+            onPressed: () {
+              _boardController.add(
+                const AdaptiveText(
+                  'New Text',
+                  tapToEdit: true,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+              );
+            },
+            child: const Icon(
+              Icons.text_fields_rounded,
+              color: Colors.black,
+            ),
+          ),
+          FloatingActionButton.small(
+            // onPressed: () => _boardController.add(addNewDialog(context)),
+            onPressed: () {
+              _boardController.add(
+                const AdaptiveText(
+                  'New Text',
+                  tapToEdit: true,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+              );
+            },
             backgroundColor: Colors.white,
             tooltip: 'Add New Text',
             child: const Icon(
@@ -485,25 +526,6 @@ class _EditImageScreenState extends EditImageViewModel {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          FloatingActionButton.small(
-            backgroundColor: Colors.white,
-            onPressed: () {
-              _boardController.add(
-                const AdaptiveText(
-                  'New Text',
-                  tapToEdit: true,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-              );
-            },
-            child: const Icon(
-              Icons.text_fields_rounded,
-              color: Colors.black,
-            ),
-          ),
           FloatingActionButton.small(
             backgroundColor: Colors.white,
             onPressed: () {
@@ -659,8 +681,13 @@ class _EditImageScreenState extends EditImageViewModel {
                           await picker.pickImage(source: ImageSource.gallery);
                       if (photo != null) {
                         imagefile = File(photo.path);
-                        _boardController.add(StackBoardItem(
-                            child: Image.file(File(imagefile!.path))));
+                        _boardController.add(
+                          StackBoardItem(
+                            child: Image.file(
+                              File(imagefile!.path),
+                            ),
+                          ),
+                        );
                         setCallBack();
                       }
                       Navigator.of(context).pop();
@@ -682,8 +709,13 @@ class _EditImageScreenState extends EditImageViewModel {
                       if (photo != null) {
                         imagefile = File(photo.path);
 
-                        _boardController.add(StackBoardItem(
-                            child: Image.file(File(imagefile!.path))));
+                        _boardController.add(
+                          StackBoardItem(
+                            child: Image.file(
+                              File(imagefile!.path),
+                            ),
+                          ),
+                        );
                         setCallBack();
                       }
                       Navigator.of(context).pop();

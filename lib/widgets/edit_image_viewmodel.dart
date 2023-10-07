@@ -149,7 +149,7 @@ abstract class EditImageViewModel extends State<EditImageScreen> {
           text: textEditingController.text,
           left: 0,
           top: 0,
-          color: Colors.black,
+          color: Colors.white,
           fontWeight: FontWeight.normal,
           fontStyle: FontStyle.normal,
           fontSize: 20,
@@ -166,6 +166,7 @@ abstract class EditImageViewModel extends State<EditImageScreen> {
       builder: (BuildContext context) => AlertDialog(
         title: const Text(
           'Add New Text',
+          style: TextStyle(color: Colors.white),
         ),
         content: TextField(
           controller: textEditingController,

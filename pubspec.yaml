@@ -25,7 +25,7 @@ dependencies:
   # photo_view: ^0.14.0
   # undo: ^1.4.0
   # stick_it: ^1.0.0+2
-  # emoji_picker_flutter: ^1.6.1
+  emoji_picker_flutter: ^1.6.1
   # animated_emoji: ^2.0.0
   # image_stickers: ^0.0.4
   # lindi_sticker_widget: ^0.1.1
