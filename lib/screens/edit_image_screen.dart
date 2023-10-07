@@ -9,14 +9,10 @@ import 'package:screenshot/screenshot.dart';
 import 'package:stack_board/stack_board.dart';
 import 'package:sticker_maker/screens/home.dart';
 import 'package:sticker_maker/widgets/custom_text.dart';
-import '../../utils/colors.dart';
-import '../../widgets/Custom_Button.dart';
-import '../../widgets/toggle_button.dart';
+import '../utils/colors.dart';
+import '../widgets/Custom_Button.dart';
 import '../widgets/edit_image_viewmodel.dart';
-import '../widgets/image_text.dart';
-
-
-
+import '../widgets/toggle_button.dart';
 
 class EditImageScreen extends StatefulWidget {
   // final File selectedImage;

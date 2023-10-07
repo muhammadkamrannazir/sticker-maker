@@ -5,9 +5,9 @@ import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:sticker_maker/screens/home.dart';
-import '../models/text_info.dart';
-import '../screens/edit_image_screen.dart';
-import '../utils/utils.dart';
+import '../../models/text_info.dart';
+import '../../screens/edit_image_screen.dart';
+import '../../utils/utils.dart';
 import 'default_button.dart';
 
 abstract class EditImageViewModel extends State<EditImageScreen> {

@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:sticker_maker/utils/colors.dart';
 import 'package:sticker_maker/widgets/appbar.dart';
 
-import '../Image Editing/screens/edit_image_screen.dart';
+import 'edit_image_screen.dart';
 import '../widgets/custom_text.dart';
 
 class HomePage extends StatefulWidget {

@@ -16,18 +16,18 @@ dependencies:
   flutter_screenutil: ^5.9.0
   get: ^4.6.5
   image_picker: ^1.0.4
-  flutter_staggered_grid_view: ^0.7.0
   crop_image: ^1.0.11
-  photo_view: ^0.14.0
-  undo: ^1.4.0
+  stack_board: ^0.1.2
+  screenshot: ^1.2.3
   image_gallery_saver: ^2.0.3
   permission_handler: ^8.3.0
-  screenshot: ^1.2.3
-  stack_board: ^0.1.2
-  stick_it: ^1.0.0+2
-  emoji_picker_flutter: ^1.6.1
-  animated_emoji: ^2.0.0
-  image_stickers: ^0.0.4
+  # flutter_staggered_grid_view: ^0.7.0
+  # photo_view: ^0.14.0
+  # undo: ^1.4.0
+  # stick_it: ^1.0.0+2
+  # emoji_picker_flutter: ^1.6.1
+  # animated_emoji: ^2.0.0
+  # image_stickers: ^0.0.4
   # lindi_sticker_widget: ^0.1.1
   # flutter_whatsapp_stickers: ^1.0.1+5
   
