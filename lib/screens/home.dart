@@ -56,6 +56,7 @@ class _HomePageState extends State<HomePage> {
                       'Personal Sticker',
                       fontSize: 14,
                     ),
+                    // packages sorted out
                     CustomText(
                       'More',
                       color: Colors.grey.shade700,
