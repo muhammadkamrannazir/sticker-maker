@@ -61,70 +61,17 @@ class _EditImageScreenState extends EditImageViewModel {
             child: Screenshot(
               controller: screenshotController,
               child: SizedBox(
-                height: MediaQuery.of(context).size.height * 0.6,
+                height: MediaQuery.of(context).size.height * 0.80,
                 child: Container(
-                  color: Colors.red,
+                  color: Colors.grey.shade100,
                   child: StackBoard(
-                      controller: _boardController,
-                      caseStyle: const CaseStyle(
-                        borderColor: Colors.grey,
-                        iconColor: Colors.white,
-                      ),
-                      background: const ColoredBox(color: Colors.transparent),
-                      // customBuilder: (StackBoardItem t) {
-                      //   // if (t is CustomItem) {
-                      //   return Container(
-                      //     width: 300,
-                      //     height: 600,
-                      //     color: Colors.white,
-                      //     // color: t.color,
-                      //     alignment: Alignment.center,
-                      //     child: Stack(
-                      //       children: [
-                      //         // CropImage(
-                      //         //   controller: controller,
-                      //         //   image: Image.file(
-                      //         //     imagefile!,
-                      //         //     fit: BoxFit.fitWidth,
-                      //         //     width: MediaQuery.of(context).size.width,
-                      //         //   ),
-                      //         //   alwaysMove: true,
-                      //         // ),
-                      //         // for (int i = 0; i < texts.length; i++)
-                      //         //   Positioned(
-                      //         //     left: texts[i].left,
-                      //         //     top: texts[i].top,
-                      //         //     child: GestureDetector(
-                      //         //       onLongPress: () {
-                      //         //         setState(() {
-                      //         //           currentIndex = i;
-                      //         //           removeText(context);
-                      //         //         });
-                      //         //       },
-                      //         //       onTap: () => setCurrentIndex(context, i),
-                      //         //       child: Draggable(
-                      //         //         feedback: ImageText(textInfo: texts[i]),
-                      //         //         child: ImageText(textInfo: texts[i]),
-                      //         //         onDragEnd: (drag) {
-                      //         //           final renderBox = context
-                      //         //               .findRenderObject() as RenderBox;
-                      //         //           Offset off = renderBox
-                      //         //               .globalToLocal(drag.offset);
-                      //         //           setState(() {
-                      //         //             texts[i].top = off.dy - 96;
-                      //         //             texts[i].left = off.dx;
-                      //         //           });
-                      //         //         },
-                      //         //       ),
-                      //         //     ),
-                      //         //   ),
-                      //       ],
-                      //     ),
-                      //   );
-                      // }
-                      // return null;
-                      // },
-                      ),
+                    controller: _boardController,
+                    caseStyle: const CaseStyle(
+                      borderColor: Colors.grey,
+                      iconColor: Colors.white,
+                    ),
+                    background: const ColoredBox(color: Colors.transparent),
+                  ),
                 ),
               ),
             ),
@@ -492,7 +439,9 @@ class _EditImageScreenState extends EditImageViewModel {
                   'New Text',
                   tapToEdit: true,
                   style: TextStyle(
-                      fontWeight: FontWeight.bold, color: Colors.white),
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
                 ),
               );
             },
@@ -541,7 +490,6 @@ class _EditImageScreenState extends EditImageViewModel {
           FloatingActionButton.small(
             onPressed: () async {
               Imagepickerchoicedialog(context);
-
             },
             child: const Icon(
               CupertinoIcons.add,
@@ -657,12 +605,11 @@ class _EditImageScreenState extends EditImageViewModel {
                           await picker.pickImage(source: ImageSource.gallery);
                       if (photo != null) {
                         imagefile = File(photo.path);
-                        _boardController.add(
-                            StackBoardItem(child: Image.file(File(imagefile!.path)))
-                        );
+                        _boardController.add(StackBoardItem(
+                            child: Image.file(File(imagefile!.path))));
                         setCallBack();
                       }
-
+                      Navigator.of(context).pop();
                     },
                   ),
                 ),
@@ -681,12 +628,11 @@ class _EditImageScreenState extends EditImageViewModel {
                       if (photo != null) {
                         imagefile = File(photo.path);
 
-                        _boardController.add(
-                             StackBoardItem(child: Image.file(File(imagefile!.path)))
-                        );
+                        _boardController.add(StackBoardItem(
+                            child: Image.file(File(imagefile!.path))));
                         setCallBack();
                       }
-
+                      Navigator.of(context).pop();
                     },
                   ),
                 ),
@@ -695,7 +641,7 @@ class _EditImageScreenState extends EditImageViewModel {
             const SizedBox(height: 2),
           ],
         );
-     },
-);
-}
+      },
+    );
+  }
 }
