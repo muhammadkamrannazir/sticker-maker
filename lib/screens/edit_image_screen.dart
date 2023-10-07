@@ -71,6 +71,60 @@ class _EditImageScreenState extends EditImageViewModel {
                       iconColor: Colors.white,
                     ),
                     background: const ColoredBox(color: Colors.transparent),
+                      // customBuilder: (StackBoardItem t) {
+                    //   // if (t is CustomItem) {
+                    //   return Container(
+                    //     width: 300,
+                    //     height: 600,
+                    //     color: Colors.white,
+                    //     // color: t.color,
+                    //     alignment: Alignment.center,
+                    //     child: Stack(
+                    //       children: [
+                    //         // CropImage(
+                    //         //   controller: controller,
+                    //         //   image: Image.file(
+                    //         //     imagefile!,
+                    //         //     fit: BoxFit.fitWidth,
+                    //         //     width: MediaQuery.of(context).size.width,
+                    //         //   ),
+                    //         //   alwaysMove: true,
+                    //         // ),
+                    //         // for (int i = 0; i < texts.length; i++)
+                    //         //   Positioned(
+                    //         //     left: texts[i].left,
+                    //         //     top: texts[i].top,
+                    //         //     child: GestureDetector(
+                    //         //       onLongPress: () {
+                    //         //         setState(() {
+                    //         //           currentIndex = i;
+                    //         //           removeText(context);
+                    //         //         });
+                    //         //       },
+                    //         //       onTap: () => setCurrentIndex(context, i),
+                    //         //       child: Draggable(
+                    //         //         feedback: ImageText(textInfo: texts[i]),
+                    //         //         child: ImageText(textInfo: texts[i]),
+                    //         //         onDragEnd: (drag) {
+                    //         //           final renderBox = context
+                    //         //               .findRenderObject() as RenderBox;
+                    //         //           Offset off = renderBox
+                    //         //               .globalToLocal(drag.offset);
+                    //         //           setState(() {
+                    //         //             texts[i].top = off.dy - 96;
+                    //         //             texts[i].left = off.dx;
+                    //         //           });
+                    //         //         },
+                    //         //       ),
+                    //         //     ),
+                    //         //   ),
+                    //       ],
+                    //     ),
+                    //   );
+                    // }
+                    // return null;
+                    // },
+                 
                   ),
                 ),
               ),
