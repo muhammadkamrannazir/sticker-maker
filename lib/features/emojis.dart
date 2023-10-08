@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' as foundation;
 
 class EmojisClass extends StatefulWidget {
-  const EmojisClass({super.key});
+  final onEmojSelected;
+  EmojisClass({this.onEmojSelected, super.key});
 
   @override
   State<EmojisClass> createState() => _EmojisClassState();
@@ -31,6 +32,9 @@ class _EmojisClassState extends State<EmojisClass> {
       height: 250,
       child: EmojiPicker(
         textEditingController: emojiFieldController,
+        onEmojiSelected: (category, emoji) {
+          if (widget.onEmojSelected != null) widget.onEmojSelected(emoji);
+        },
         onBackspacePressed: _onBackspacePressed,
         config: Config(
           columns: 7,

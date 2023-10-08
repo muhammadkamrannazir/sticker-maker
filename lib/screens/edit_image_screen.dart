@@ -9,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:stack_board/stack_board.dart';
 import 'package:sticker_maker/features/emojis.dart';
+import 'package:sticker_maker/features/stickers.dart';
 import 'package:sticker_maker/screens/home.dart';
 import 'package:sticker_maker/widgets/custom_text.dart';
 import '../utils/colors.dart';
@@ -56,7 +57,7 @@ class _EditImageScreenState extends EditImageViewModel {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade900,
+      backgroundColor: AppColors.greyShade900,
       appBar: _appBar,
       body: Column(
         children: [
@@ -75,59 +76,6 @@ class _EditImageScreenState extends EditImageViewModel {
                         iconColor: Colors.white,
                       ),
                       background: const ColoredBox(color: Colors.transparent),
-                      // customBuilder: (StackBoardItem t) {
-                      //   // if (t is CustomItem) {
-                      //   return Container(
-                      //     width: 300,
-                      //     height: 600,
-                      //     color: Colors.white,
-                      //     // color: t.color,
-                      //     alignment: Alignment.center,
-                      //     child: Stack(
-                      //       children: [
-                      //         // CropImage(
-                      //         //   controller: controller,
-                      //         //   image: Image.file(
-                      //         //     imagefile!,
-                      //         //     fit: BoxFit.fitWidth,
-                      //         //     width: MediaQuery.of(context).size.width,
-                      //         //   ),
-                      //         //   alwaysMove: true,
-                      //         // ),
-                      //         // for (int i = 0; i < texts.length; i++)
-                      //         //   Positioned(
-                      //         //     left: texts[i].left,
-                      //         //     top: texts[i].top,
-                      //         //     child: GestureDetector(
-                      //         //       onLongPress: () {
-                      //         //         setState(() {
-                      //         //           currentIndex = i;
-                      //         //           removeText(context);
-                      //         //         });
-                      //         //       },
-                      //         //       onTap: () => setCurrentIndex(context, i),
-                      //         //       child: Draggable(
-                      //         //         feedback: ImageText(textInfo: texts[i]),
-                      //         //         child: ImageText(textInfo: texts[i]),
-                      //         //         onDragEnd: (drag) {
-                      //         //           final renderBox = context
-                      //         //               .findRenderObject() as RenderBox;
-                      //         //           Offset off = renderBox
-                      //         //               .globalToLocal(drag.offset);
-                      //         //           setState(() {
-                      //         //             texts[i].top = off.dy - 96;
-                      //         //             texts[i].left = off.dx;
-                      //         //           });
-                      //         //         },
-                      //         //       ),
-                      //         //     ),
-                      //         //   ),
-                      //       ],
-                      //     ),
-                      //   );
-                      // }
-                      // return null;
-                      // },
                     ),
                     const CustomTextFieldTransparent(),
                   ],
@@ -141,7 +89,21 @@ class _EditImageScreenState extends EditImageViewModel {
               toggleButtonIndex == 0 ? imageOptions() : const SizedBox(),
               toggleButtonIndex == 1 ? textOptions() : const SizedBox(),
               toggleButtonIndex == 2 ? addNewOptions() : const SizedBox(),
-              toggleButtonIndex == 3 ? const EmojisClass() : const SizedBox(),
+              // toggleButtonIndex == 3
+              //     ? EmojisClass(onEmojSelected: (Emoji emoji) {
+              //         _boardController
+              //             .add(StackBoardItem(child: Text(emoji.emoji)));
+              //         // emoji.emoji;
+              //       })
+              //     : const SizedBox(),
+              toggleButtonIndex == 4
+                  ? StickerClass(
+                      onTap: (value) {
+                        _boardController
+                            .add(StackBoardItem(child: Image.asset(value)));
+                      },
+                    )
+                  : const SizedBox(),
               Divider(color: AppColors.primary),
               Padding(
                 padding: const EdgeInsets.only(bottom: 5),
@@ -153,6 +115,7 @@ class _EditImageScreenState extends EditImageViewModel {
                         CupertinoIcons.textformat,
                         CupertinoIcons.add,
                         Icons.emoji_emotions,
+                        Icons.emoji_flags_rounded,
                       ],
                       onButtonSelected: (value) {
                         toggleButtonIndex = value;
@@ -433,7 +396,7 @@ class _EditImageScreenState extends EditImageViewModel {
             backgroundColor: Colors.white,
             tooltip: 'Add New Text',
             child: const Icon(
-              Icons.add,
+              CupertinoIcons.add,
               color: Colors.black,
             ),
           ),
